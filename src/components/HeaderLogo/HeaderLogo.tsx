@@ -1,7 +1,7 @@
 import logo from '../../assets/logo.png';
-import './Logo.css';
+import './HeaderLogo.css';
 
-export const Logo = () => {
+export const HeaderLogo = () => {
   return (
     <div className='logo'>
       <img src={logo} alt='Rick & Morty logo' className='logo__image' />

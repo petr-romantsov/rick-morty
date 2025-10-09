@@ -1,12 +1,11 @@
-import logo from '../../assets/logo.png';
-import { Logo } from '../Logo/Logo';
+import { HeaderLogo } from '../HeaderLogo/HeaderLogo';
 import './Header.css';
 
 export const Header = () => {
   return (
     <header className='header'>
       <div className='container'>
-        <Logo />
+        <HeaderLogo />
       </div>
     </header>
   );
