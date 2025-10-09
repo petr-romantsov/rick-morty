@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { Footer } from '../Footer/Footer';
 import { Header } from '../Header/Header';
 

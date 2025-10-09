@@ -1,15 +1,10 @@
 import './App.css';
-import { GoBackButton } from './components/GoBackButton/GoBackButton';
-import { MainLogo } from './components/MainLogo/MainLogo';
-import { PageLayout } from './components/PageLayout/PageLayout';
+import { Character } from './pages/Character/Character';
+
+import { CaractersList } from './pages/CharactersList/CharactersList';
 
 function App() {
-  return (
-    <PageLayout>
-      <MainLogo />
-      <GoBackButton />
-    </PageLayout>
-  );
+  return <Character />;
 }
 
 export default App;
