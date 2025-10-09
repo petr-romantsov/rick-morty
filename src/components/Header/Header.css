@@ -1,0 +1,4 @@
+.header {
+  padding: 5px 0;
+  box-shadow: 0 3px 5px var(--color-shadow);
+}
