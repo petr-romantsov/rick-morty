@@ -1,8 +1,8 @@
 import './App.css';
-import { Character } from './pages/Character/Character';
+import { AppRoutes } from './components/AppRoutes/AppRoutes';
 
 function App() {
-  return <Character />;
+  return <AppRoutes />;
 }
 
 export default App;

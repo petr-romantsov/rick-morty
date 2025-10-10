@@ -7,7 +7,7 @@ export const Character = () => {
   return (
     <PageLayout>
       <GoBackButton />
-      <Loader size='large' text='some loading text' />
+      <Loader size='small' />
     </PageLayout>
   );
 };
