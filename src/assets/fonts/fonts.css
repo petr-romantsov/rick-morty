@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'Roboto';
+  src: local('RobotoRegular'), url('./fonts/RobotoRegular.eot') format('embedded-opentype'),
+    url('./fonts/RobotoRegular.woff2') format('woff2'), url('./fonts/RobotoRegular.woff') format('woff');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: local('RobotoMedium'), url('./fonts/RobotoMedium.eot') format('embedded-opentype'),
+    url('./fonts/RobotoMedium.woff2') format('woff2'), url('./fonts/RobotoMedium.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: local('RobotoBold'), url('./fonts/RobotoBold.eot') format('embedded-opentype'),
+    url('./fonts/RobotoBold.woff2') format('woff2'), url('./fonts/RobotoBold.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Karla';
+  src: local('KarlaBold'), url('./fonts/KarlaBold.eot') format('embedded-opentype'),
+    url('./fonts/KarlaBold.woff2') format('woff2'), url('./fonts/KarlaBold.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: local('PoppinsRegular'), url('./fonts/PoppinsRegular.eot') format('embedded-opentype'),
+    url('./fonts/PoppinsRegular.woff2') format('woff2'), url('./fonts/PoppinsRegular.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: local('PoppinsSemiBold'), url('./fonts/PoppinsSemiBold.eot') format('embedded-opentype'),
+    url('./fonts/PoppinsSemiBold.woff2') format('woff2'), url('./fonts/PoppinsSemiBold.woff') format('woff');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}

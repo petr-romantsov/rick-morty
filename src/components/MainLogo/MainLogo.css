@@ -1,0 +1,12 @@
+.main-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.main-logo__img {
+  width: 600px;
+  height: 200px;
+}
