@@ -37,8 +37,7 @@ p {
 
 :root {
   --roboto-font-family: 'Roboto', sans-serif;
-  --karla-font-family: 'Karla', sans-serif;
-  --poppins-font-family: 'Poppins', sans-serif;
+  --color-bg-white: #ffffff;
   --color-text-black: #000000de;
   --color-text-gray: #00000099;
   --color-status-green: #12b800;

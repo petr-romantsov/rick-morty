@@ -1,0 +1,78 @@
+.selector {
+  $p: &;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-self: flex-start;
+
+    width: 100%;
+    padding: 18px 14px;
+    border: 1px solid #393939;
+    border-radius: 6px;
+    background-color: transparent;
+
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 119%;
+    color: var(--color-text-gray);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: #dcdcdc99;
+      }
+    }
+
+    &_opened {
+      #{$p} {
+        &__icon {
+          transform: rotateX(180deg);
+        }
+      }
+    }
+  }
+
+  &__icon {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &__options {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #393939;
+    border-radius: 6px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+
+    &_opened {
+      opacity: 1;
+    }
+  }
+
+  &__option {
+    padding: 10px 14px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 119%;
+    color: var(--color-text-gray);
+    background-color: var(--color-bg-white);
+    transition: background-color 0.2s ease-in-out;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: #dcdcdc99;
+      }
+    }
+
+    &:active {
+      background-color: #a4a4a499;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import mainLogo from '../../assets/img/rick&morty_logo.png';
-import './MainLogo.css';
+import './MainLogo.scss';
 
 export const MainLogo = () => {
   return (

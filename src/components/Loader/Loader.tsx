@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import loaderImg from '../../assets/img/loader.png';
-import './Loader.css';
+import './Loader.scss';
 
 type TLoaderProps = {
   size?: 'large' | 'small';
