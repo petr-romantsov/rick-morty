@@ -1,7 +1,7 @@
-import { GoBackButton } from '../../components/GoBackButton/GoBackButton';
-import { Loader } from '../../components/Loader/Loader';
-import { PageLayout } from '../../components/PageLayout/PageLayout';
-import { Selector } from '../../components/Selector/Selector';
+import { GoBackButton } from '@/shared';
+import { Loader } from '@/shared';
+import { PageLayout } from '@/shared';
+import { Selector } from '@/shared';
 import './Character.scss';
 
 const selectorOptions: string[] = ['Human', 'Alien', 'Humanoid', 'Animal', 'Robot'];

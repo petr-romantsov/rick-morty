@@ -1,5 +1,5 @@
 import './App.scss';
-import { AppRoutes } from './components/AppRoutes/AppRoutes';
+import { AppRoutes } from '@/shared';
 
 function App() {
   return <AppRoutes />;

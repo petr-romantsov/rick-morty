@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
-import { Footer } from '../Footer/Footer';
-import { Header } from '../Header/Header';
+import { Footer } from '@/shared';
+import { Header } from '@/shared';
 
 export const PageLayout = ({ children }: PropsWithChildren) => {
   return (

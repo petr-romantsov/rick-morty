@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import ChevronDown from '../../assets/img/svg/chevron-down.svg?react';
+import ChevronDown from '@/assets/img/svg/chevron-down.svg?react';
 import './Selector.scss';
 import { useState } from 'react';
 

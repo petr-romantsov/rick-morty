@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import loaderImg from '../../assets/img/loader.png';
+import loaderImg from '@/assets/img/loader.png';
 import './Loader.scss';
 
 type TLoaderProps = {

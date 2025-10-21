@@ -1,6 +1,6 @@
-import { Loader } from '../../components/Loader/Loader';
-import { MainLogo } from '../../components/MainLogo/MainLogo';
-import { PageLayout } from '../../components/PageLayout/PageLayout';
+import { Loader } from '@/shared';
+import { MainLogo } from '@/shared';
+import { PageLayout } from '@/shared';
 import './CharactersList.scss';
 
 export const CharactersList = () => {
