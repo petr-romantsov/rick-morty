@@ -6,36 +6,26 @@ import { useState } from 'react';
 type TSelectorProps = {
   placeholder: string;
   options: string[];
-  size: 'standart' | 'small';
+  size: 'medium' | 'small';
   hasStatus?: boolean;
 };
 
-export const Selector = ({ placeholder, options, size = 'standart', hasStatus }: TSelectorProps) => {
+export const Selector = ({ placeholder, options, size = 'medium', hasStatus }: TSelectorProps) => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   return (
     <div
       className={clsx('selector', {
-        selector_size_large: size === 'standart',
-        selector_size_small: size === 'small'
+        selector_size_medium: size === 'medium',
+        selector_size_small: size === 'small',
+        selector_opened: isSelectOpen
       })}
     >
-      <button
-        className={clsx('selector__button', {
-          selector__button_opened: isSelectOpen
-        })}
-        onClick={() => setIsSelectOpen((open) => !open)}
-      >
+      <button className='selector__button' onClick={() => setIsSelectOpen((open) => !open)}>
         {placeholder}
         <ChevronDown className='selector__icon' />
       </button>
-      <ul
-        className={clsx('selector__options', {
-          selector__options_size_standart: size === 'standart',
-          selector__options_size_small: size === 'small',
-          selector__options_opened: isSelectOpen
-        })}
-      >
+      <ul className='selector__options'>
         {options.map((option) => {
           return (
             <li key={option} className='selector__option'>

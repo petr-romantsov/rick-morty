@@ -11,7 +11,7 @@ export const Character = () => {
     <PageLayout>
       <GoBackButton />
       <Loader size='large' />
-      <Selector placeholder='Species' options={selectorOptions} size='standart' />
+      <Selector placeholder='Species' options={selectorOptions} size='medium' />
     </PageLayout>
   );
 };

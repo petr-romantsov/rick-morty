@@ -1,9 +1,47 @@
 .selector {
   $p: &;
-  width: 240px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  &_size_medium {
+    width: 240px;
+  }
+
+  &_size_small {
+    width: 94px;
+
+    #{$p} {
+      &__button {
+        padding: 2px 5px;
+        font-size: 14px;
+        line-height: 150%;
+        letter-spacing: 0.02em;
+      }
+
+      &__icon {
+        width: 9px;
+        height: 9px;
+      }
+
+      &__option {
+        padding: 5px;
+      }
+    }
+  }
+
+  &_opened {
+    #{$p} {
+      &__icon {
+        transform: rotateX(180deg);
+      }
+
+      &__options {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
 
   &__button {
     display: flex;
@@ -27,14 +65,6 @@
         background-color: #dcdcdc99;
       }
     }
-
-    &_opened {
-      #{$p} {
-        &__icon {
-          transform: rotateX(180deg);
-        }
-      }
-    }
   }
 
   &__icon {
@@ -45,15 +75,13 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
     border: 1px solid #393939;
     border-radius: 6px;
     overflow: hidden;
     opacity: 0;
+    visibility: hidden;
     transition: opacity 0.2s ease-in-out;
-
-    &_opened {
-      opacity: 1;
-    }
   }
 
   &__option {
