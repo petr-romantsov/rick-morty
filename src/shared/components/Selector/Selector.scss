@@ -93,6 +93,10 @@
     background-color: var(--color-bg-white);
     transition: background-color 0.2s ease-in-out;
 
+    &_selected {
+      background-color: #dfdfdf99;
+    }
+
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         background-color: #dcdcdc99;
