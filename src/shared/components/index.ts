@@ -7,3 +7,4 @@ export * from './MainLogo/MainLogo';
 export * from './PageLayout/PageLayout';
 export * from './Selector/Selector';
 export * from '../constants/SelectOptions';
+export * from '../components/Status/Status';

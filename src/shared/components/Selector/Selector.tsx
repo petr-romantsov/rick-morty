@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import ChevronDown from '@/assets/img/svg/chevron-down.svg?react';
 import './Selector.scss';
 import { useState } from 'react';
+import { Status } from '@/shared';
 
 export type TSelectorOption = {
   id: string;
@@ -15,7 +16,7 @@ type TSelectorProps = {
   hasStatus?: boolean;
 };
 
-export const Selector = ({ placeholder, options, size = 'medium', hasStatus }: TSelectorProps) => {
+export const Selector = ({ placeholder, options, size = 'medium' }: TSelectorProps) => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [selectedOptionId, setSelectedOptionId] = useState<string>('');
@@ -34,6 +35,7 @@ export const Selector = ({ placeholder, options, size = 'medium', hasStatus }: T
               onClick={(e) => handleOptionClick(e)}
             >
               {option.option}
+              <Status status='Alive' />
             </li>
           );
         })}

@@ -26,6 +26,9 @@
 
       &__option {
         padding: 5px;
+        font-size: 14px;
+        line-height: 150%;
+        letter-spacing: 0.02em;
       }
     }
   }
@@ -85,6 +88,9 @@
   }
 
   &__option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 14px;
     font-size: 16px;
     font-weight: 400;
