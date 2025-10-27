@@ -4,7 +4,7 @@ import './MainLogo.scss';
 export const MainLogo = () => {
   return (
     <div className='main-logo'>
-      <img src={mainLogo} alt='логотип Рик и Морти' className='main-logo__img' />
+      <img src={mainLogo} alt='Rick&Morty logo' className='main-logo__img' />
     </div>
   );
 };

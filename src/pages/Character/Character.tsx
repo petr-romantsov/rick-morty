@@ -1,4 +1,4 @@
-import { GoBackButton, Loader, PageLayout, Selector, speciesOptions } from '@/shared';
+import { GoBackButton, Loader, PageLayout, Select, statusOptions } from '@/shared';
 
 import './Character.scss';
 
@@ -7,7 +7,7 @@ export const Character = () => {
     <PageLayout>
       <GoBackButton />
       <Loader />
-      <Selector placeholder='Species' options={speciesOptions} size='small' />
+      <Select placeholder='Status' options={statusOptions} size='medium' />
     </PageLayout>
   );
 };

@@ -15,7 +15,7 @@ export const Loader = ({ size = 'large', text = '' }) => {
         loader_size_large: size === 'large'
       })}
     >
-      <img className='loader__img' src={loaderImg} alt='иллюстрация загрузки' />
+      <img className='loader__img' src={loaderImg} alt='Loading picture' />
 
       {!!text && <p className='loader__text'>{text}</p>}
     </div>

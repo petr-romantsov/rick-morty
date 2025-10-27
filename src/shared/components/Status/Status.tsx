@@ -1,8 +1,10 @@
 import clsx from 'clsx';
 import './Status.scss';
 
+export type TStatus = 'Alive' | 'Dead' | 'Unknown';
+
 type TStatusProps = {
-  status: 'Alive' | 'Dead' | 'Unknown';
+  status: TStatus;
 };
 
 export const Status = ({ status }: TStatusProps) => {

@@ -5,7 +5,7 @@ export const Header = () => {
   return (
     <header className='header'>
       <div className='container'>
-        <img src={logo} alt='Логотип Рик и Морти' className='header__logo' />
+        <img src={logo} alt='Rick&Morty Logo' className='header__logo' />
       </div>
     </header>
   );
