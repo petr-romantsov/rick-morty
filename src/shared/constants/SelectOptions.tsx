@@ -1,6 +1,6 @@
 import { type TSelectOption } from '@/shared';
 
-export const speciesOptions: TSelectOption[] = [
+export const SPECIES_OPTIONS: TSelectOption[] = [
   { id: 'species-1', name: 'Human' },
   { id: 'species-2', name: 'Alien' },
   { id: 'species-3', name: 'Humanoid' },
@@ -8,7 +8,7 @@ export const speciesOptions: TSelectOption[] = [
   { id: 'species-5', name: 'Robot' }
 ];
 
-export const statusOptions: TSelectOption[] = [
+export const STATUS_OPTIONS: TSelectOption[] = [
   { id: 'status-1', name: 'Alive', status: 'Alive' },
   { id: 'status-2', name: 'Dead', status: 'Dead' },
   { id: 'status-3', name: 'Uknown', status: 'Unknown' }

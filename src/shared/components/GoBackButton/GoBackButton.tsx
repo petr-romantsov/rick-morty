@@ -1,11 +1,11 @@
-import Arrow from '@/assets/img/svg/arrow.svg?react';
+import { ArrowLeft } from '@/assets/icons';
 
 import './GoBackButton.scss';
 
 export const GoBackButton = () => {
   return (
     <button className='go-back-button'>
-      <Arrow />
+      <ArrowLeft />
       GO BACK
     </button>
   );

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 
-import ChevronDown from '@/assets/img/svg/chevron-down.svg?react';
+import { ChevronDown } from '@/assets/icons';
 import type { TSelectOption } from '@/shared';
 import { Option, Status } from '@/shared';
 
