@@ -1,5 +1,7 @@
-import clsx from 'clsx';
 import type { MouseEventHandler } from 'react';
+
+import clsx from 'clsx';
+
 import { Status, type TStatus } from '@/shared';
 
 export type TSelectOption = {

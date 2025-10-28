@@ -1,4 +1,5 @@
 import logo from '@/assets/img/logo.png';
+
 import './Header.scss';
 
 export const Header = () => {

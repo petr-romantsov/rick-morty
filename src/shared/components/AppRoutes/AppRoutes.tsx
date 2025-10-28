@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router';
+
 import { Character } from '@/pages';
 import { CharactersList } from '@/pages';
 import { PageLayout } from '@/shared';

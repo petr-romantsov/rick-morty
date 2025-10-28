@@ -1,5 +1,7 @@
 import clsx from 'clsx';
+
 import loaderImg from '@/assets/img/loader.png';
+
 import './Loader.scss';
 
 type TLoaderProps = {
@@ -7,7 +9,7 @@ type TLoaderProps = {
   text?: string;
 };
 
-export const Loader = ({ size = 'large', text = '' }) => {
+export const Loader = ({ size = 'large', text = '' }: TLoaderProps) => {
   return (
     <div
       className={clsx('loader', {

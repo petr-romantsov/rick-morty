@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from 'react';
+
 import { Footer } from '@/shared';
 import { Header } from '@/shared';
 

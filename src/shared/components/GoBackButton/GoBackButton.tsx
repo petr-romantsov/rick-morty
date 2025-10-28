@@ -1,5 +1,6 @@
-import './GoBackButton.scss';
 import Arrow from '@/assets/img/svg/arrow.svg?react';
+
+import './GoBackButton.scss';
 
 export const GoBackButton = () => {
   return (

@@ -1,9 +1,12 @@
-import clsx from 'clsx';
-import ChevronDown from '@/assets/img/svg/chevron-down.svg?react';
-import './Select.scss';
 import { useState } from 'react';
+
+import clsx from 'clsx';
+
+import ChevronDown from '@/assets/img/svg/chevron-down.svg?react';
 import type { TSelectOption } from '@/shared';
 import { Option, Status } from '@/shared';
+
+import './Select.scss';
 
 type TSelectorProps = {
   placeholder: string;
