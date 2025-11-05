@@ -6,6 +6,5 @@ export * from './Loader/Loader';
 export * from './MainLogo/MainLogo';
 export * from './PageLayout/PageLayout';
 export * from './Select/Select';
-export * from './Select/Option';
 export * from '../constants/SelectOptions';
 export * from '../components/Status/Status';
