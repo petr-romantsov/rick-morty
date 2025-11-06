@@ -1,7 +1,6 @@
-import { GoBackButton } from '../../components/GoBackButton/GoBackButton';
-import { Loader } from '../../components/Loader/Loader';
-import { PageLayout } from '../../components/PageLayout/PageLayout';
-import './Character.css';
+import { GoBackButton, Loader, PageLayout } from '@/shared';
+
+import './Character.scss';
 
 export const Character = () => {
   return (
