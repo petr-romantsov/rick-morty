@@ -6,38 +6,38 @@ import { ChevronDown } from '@/assets/icons';
 
 import './Select.scss';
 
-export type TSelectOption = {
+export type TSelectOption<T = string> = {
   id: string;
-  value: string;
+  value: T;
   label: string;
 };
 
-type SelectOptionContentProps = {
-  option: TSelectOption;
+type SelectOptionContentProps<T> = {
+  option: TSelectOption<T>;
 };
 
-type TSelectorProps = {
+type TSelectorProps<T> = {
   placeholder: string;
-  options: TSelectOption[];
+  options: TSelectOption<T>[];
   size: 'medium' | 'small';
-  SelectOptionContentComponent?: React.FC<SelectOptionContentProps>;
+  SelectOptionContentComponent?: React.FC<SelectOptionContentProps<T>>;
 };
 
-const DefaultSelectOptionContent = ({ option }: SelectOptionContentProps) => {
+const DefaultSelectOptionContent = <T,>({ option }: SelectOptionContentProps<T>) => {
   return <>{option.value}</>;
 };
 
-export const Select = ({
+export const Select = <T,>({
   placeholder,
   options,
   size = 'medium',
   SelectOptionContentComponent = DefaultSelectOptionContent
-}: TSelectorProps) => {
+}: TSelectorProps<T>) => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<TSelectOption | null>(null);
+  const [selectedOption, setSelectedOption] = useState<TSelectOption<T> | null>(null);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const selectOption = (option: TSelectOption) => {
+  const selectOption = (option: TSelectOption<T>) => {
     setSelectedOption(option);
   };
 
@@ -45,7 +45,7 @@ export const Select = ({
     setSelectedOption(null);
   };
 
-  const handleOptionClick = (option: TSelectOption) => {
+  const handleOptionClick = (option: TSelectOption<T>) => {
     const selected = options.find((optionsItem) => optionsItem.id === option.id);
     if (selected) {
       selectedOption && selectedOption.id === selected.id ? clearSelectedOption() : selectOption(selected);
