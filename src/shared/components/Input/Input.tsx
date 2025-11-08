@@ -5,21 +5,21 @@ import clsx from 'clsx';
 import './Input.scss';
 
 type TInputProps = {
-  view?: 'bordered' | 'underlined';
-  size?: 'medium' | 'small';
-  icon?: ReactNode;
   value: string;
   placeholder: string;
   onChange: (value: string) => void;
+  view?: 'bordered' | 'underlined';
+  size?: 'medium' | 'small';
+  icon?: ReactNode;
 };
 
 export const Input = ({
-  view = 'bordered',
-  size = 'medium',
-  icon,
   value,
   placeholder,
-  onChange
+  onChange,
+  view = 'bordered',
+  size = 'medium',
+  icon
 }: TInputProps) => {
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);

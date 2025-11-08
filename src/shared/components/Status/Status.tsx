@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { classnames } from '@/shared/helpers/classnames';
 
 import './Status.scss';
 
@@ -11,7 +11,7 @@ type TStatusProps = {
 export const Status = ({ status }: TStatusProps) => {
   return (
     <span
-      className={clsx('status', {
+      className={classnames('status', {
         status_alive: status === 'alive',
         status_dead: status === 'dead',
         status_unknown: status === 'unknown'
