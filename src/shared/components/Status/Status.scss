@@ -7,14 +7,14 @@
   border-radius: 100%;
 
   &_alive {
-    background-color: #12b800;
+    background-color: var(--color-status-green);
   }
 
   &_dead {
-    background-color: #df0000;
+    background-color: var(--color-status-red);
   }
 
   &_unknown {
-    background-color: #ff9900;
+    background-color: var(--color-status-orange);
   }
 }

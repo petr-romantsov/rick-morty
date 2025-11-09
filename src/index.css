@@ -44,4 +44,5 @@ p {
   --color-status-red: #df0000;
   --color-status-orange: #ff9900;
   --color-shadow: #cccbcb;
+  --color-border: #00000080;
 }

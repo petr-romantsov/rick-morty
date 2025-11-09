@@ -1,33 +1,42 @@
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, useState } from 'react';
 
-import { Footer, SPECIES_OPTIONS, STATUS_OPTIONS, Select, Status } from '@/shared';
+import { SearchIcon } from '@/assets/icons';
+import { Footer, Input, STATUS_OPTIONS, Select, Status } from '@/shared';
 import { Header } from '@/shared';
 
 import './PageLayout.scss';
 
 export const PageLayout = ({ children }: PropsWithChildren) => {
+  const [inpValue, setInputValue] = useState('');
+
   return (
     <>
       <Header />
       <main className='container'>
         <div className='temp-select-wrapper'>
           <Select
-            placeholder='Species'
-            options={SPECIES_OPTIONS}
-            size='medium'
-            SelectOptionContentComponent={({ option }) => <>{option.label}</>}
-          />
-
-          <Select
             placeholder='Status'
             options={STATUS_OPTIONS}
-            size='small'
+            size='medium'
             SelectOptionContentComponent={({ option }) => (
               <>
                 {option.label}
                 <Status status={option.value} />
               </>
             )}
+          />
+          <Input
+            value={inpValue}
+            onChange={setInputValue}
+            placeholder='Filter by name'
+            icon={<SearchIcon />}
+          />
+          <Input
+            value={inpValue}
+            onChange={setInputValue}
+            placeholder='Male'
+            view='underlined'
+            size='small'
           />
         </div>
         {children}

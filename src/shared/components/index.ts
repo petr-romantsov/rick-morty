@@ -8,3 +8,4 @@ export * from './PageLayout/PageLayout';
 export * from './Select/Select';
 export * from '../constants/SelectOptions';
 export * from '../components/Status/Status';
+export * from './Input/Input';
