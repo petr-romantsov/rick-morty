@@ -8,7 +8,7 @@ type TStatusProps = {
   status: TStatus;
 };
 
-export const Status = ({ status }: TStatusProps) => {
+export const Status = ({ status = 'unknown' }: TStatusProps) => {
   return (
     <span
       className={classnames('status', {

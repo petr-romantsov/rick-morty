@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: border-color 0.3s ease-in-out;
 
   &_view_bordered {
     width: 240px;
@@ -27,10 +28,9 @@
     color: var(--color-text-black);
 
     &.customInput_size_medium {
-      width: 178px;
-
       #{$p} {
         &__input {
+          width: 178px;
           font-weight: 500;
           font-size: 20px;
           line-height: 150%;
@@ -40,10 +40,9 @@
     }
 
     &.customInput_size_small {
-      width: 115px;
-
       #{$p} {
         &__input {
+          width: 115px;
           font-weight: 400;
           font-size: 14px;
           line-height: 150%;
@@ -68,5 +67,10 @@
     justify-content: center;
     width: 24px;
     height: 24px;
+  }
+
+  &_readonly {
+    border-color: transparent;
+    pointer-events: none;
   }
 }
