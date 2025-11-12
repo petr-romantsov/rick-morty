@@ -11,8 +11,9 @@
     margin: 0;
     background: none;
     border: none;
+    cursor: pointer;
 
-    &_type_edit {
+    &_edit {
       visibility: hidden;
       opacity: 0;
       transition: opacity 0.3s ease-in-out;

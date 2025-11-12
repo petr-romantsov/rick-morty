@@ -10,7 +10,7 @@ import './PageLayout.scss';
 
 export const PageLayout = ({ children }: PropsWithChildren) => {
   const [inpValue, setInputValue] = useState('');
-  const [statusValue, setStatusValue] = useState<TStatus | undefined>(undefined);
+  const [statusValue, setStatusValue] = useState<TStatus | null>(null);
 
   const mockCharacter: TCharacter = {
     id: 1,

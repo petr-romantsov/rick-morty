@@ -1,11 +1,12 @@
 import { Link } from 'react-router';
 
 import RickImage from '@/assets/img/rick-image.png';
-import { useEditCharacterCard } from '@/hooks/useEditCharacterCard';
+import { useEditCharacterCard } from '@/hooks';
 import { Input, STATUS_OPTIONS, Select, Status } from '@/shared/components';
-import { STATUS_LABELS } from '@/shared/constants/StatusLabels';
-import type { TCharacter } from '@/shared/types/types';
-import { CardButtons } from '@/widgets/CharacterCard/components/CardButtons/CardButtons';
+import { STATUS_LABELS } from '@/shared/constants';
+import type { TCharacter } from '@/shared/types';
+
+import { CardButtons } from './components/CardButtons/CardButtons';
 
 import './CharacterCard.scss';
 
@@ -29,28 +30,28 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
             {character.name}
           </Link>
         ) : (
-          <Input value={character.name} onChange={() => undefined} view='underlined' readonly={readonly} />
+          <Input value={character.name} onChange={() => null} view='underlined' readonly={readonly} />
         )}
         <div className='characterCard__property'>
-          <h3 className='characterCard__property-name'>Gender</h3>
-          <p className='characterCard__property-value'>{character.gender}</p>
+          <h3 className='characterCard__propertyName'>Gender</h3>
+          <p className='characterCard__propertyValue'>{character.gender}</p>
         </div>
         <div className='characterCard__property'>
-          <h3 className='characterCard__property-name'>Species</h3>
-          <p className='characterCard__property-value'>{character.species}</p>
+          <h3 className='characterCard__propertyName'>Species</h3>
+          <p className='characterCard__propertyValue'>{character.species}</p>
         </div>
         <div className='characterCard__property'>
-          <h3 className='characterCard__property-name'>Location</h3>
+          <h3 className='characterCard__propertyName'>Location</h3>
           <Input
             value={character.location.name}
-            onChange={() => undefined}
+            onChange={() => null}
             view='underlined'
             size='small'
             readonly={readonly}
           />
         </div>
         <div className='characterCard__property'>
-          <h3 className='characterCard__property-name'>Status</h3>
+          <h3 className='characterCard__propertyName'>Status</h3>
           <div className='characterCard__status'>
             {readonly ? (
               <>
@@ -63,6 +64,7 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
                 onChange={setStatusValue}
                 options={STATUS_OPTIONS}
                 size='small'
+                placeholder='Status'
                 SelectOptionContentComponent={({ option }) => (
                   <>
                     {option.label}

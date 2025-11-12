@@ -5,7 +5,7 @@ import './Status.scss';
 export type TStatus = 'alive' | 'dead' | 'unknown';
 
 type TStatusProps = {
-  status: TStatus;
+  status: TStatus | null;
 };
 
 export const Status = ({ status = 'unknown' }: TStatusProps) => {

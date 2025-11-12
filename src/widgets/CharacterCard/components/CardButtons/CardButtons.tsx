@@ -12,7 +12,7 @@ export const CardButtons = ({ readonly, onClose, onEdit }: TCardButtonsProps) =>
   return (
     <div className='cardButtons'>
       {readonly ? (
-        <button className='cardButtons__btn cardButtons__btn_type_edit' onClick={onEdit}>
+        <button className='cardButtons__btn cardButtons__btn_edit' onClick={onEdit}>
           <EditIcon />
         </button>
       ) : (
@@ -20,7 +20,7 @@ export const CardButtons = ({ readonly, onClose, onEdit }: TCardButtonsProps) =>
           <button className='cardButtons__btn' onClick={onClose}>
             <CloseIcon />
           </button>
-          <button className='cardButtons__btn'>
+          <button className='cardButtons__btn' onClick={() => null}>
             <CheckIcon />
           </button>
         </>
