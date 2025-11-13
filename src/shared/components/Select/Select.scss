@@ -1,8 +1,6 @@
 .selector {
   $p: &;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  position: relative;
 
   &_size_medium {
     width: 240px;
@@ -63,6 +61,7 @@
     font-weight: 400;
     line-height: 119%;
     color: var(--color-text-gray);
+    cursor: pointer;
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
@@ -77,6 +76,9 @@
   }
 
   &__options {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
     list-style: none;
     padding: 0;
     margin: 0;
@@ -87,6 +89,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease-in-out;
+    z-index: 10;
   }
 
   &__option {

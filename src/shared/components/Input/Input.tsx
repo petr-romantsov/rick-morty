@@ -6,11 +6,12 @@ import './Input.scss';
 
 type TInputProps = {
   value: string;
-  placeholder: string;
+  placeholder?: string;
   onChange: (value: string) => void;
   view?: 'bordered' | 'underlined';
   size?: 'medium' | 'small';
   icon?: ReactNode;
+  readonly?: boolean;
 };
 
 export const Input = ({
@@ -19,7 +20,8 @@ export const Input = ({
   onChange,
   view = 'bordered',
   size = 'medium',
-  icon
+  icon,
+  readonly
 }: TInputProps) => {
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
@@ -31,7 +33,8 @@ export const Input = ({
         customInput_view_bordered: view === 'bordered',
         customInput_view_underlined: view === 'underlined',
         customInput_size_medium: size === 'medium',
-        customInput_size_small: size === 'small'
+        customInput_size_small: size === 'small',
+        customInput_readonly: readonly
       })}
     >
       {icon && <span className='customInput__icon'>{icon}</span>}

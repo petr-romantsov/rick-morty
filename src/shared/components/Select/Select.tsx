@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -17,43 +17,46 @@ type SelectOptionContentProps<T> = {
 };
 
 type TSelectorProps<T> = {
-  placeholder: string;
   options: TSelectOption<T>[];
-  size: 'medium' | 'small';
+  onChange: (value: T) => void;
+  value?: T;
+  size?: 'medium' | 'small';
+  placeholder?: string;
   SelectOptionContentComponent?: React.FC<SelectOptionContentProps<T>>;
 };
 
 const DefaultSelectOptionContent = <T,>({ option }: SelectOptionContentProps<T>) => {
-  return <>{option.value}</>;
+  return <>{option.label}</>;
 };
 
 export const Select = <T,>({
-  placeholder,
+  value,
+  placeholder = '',
   options,
+  onChange,
   size = 'medium',
   SelectOptionContentComponent = DefaultSelectOptionContent
 }: TSelectorProps<T>) => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<TSelectOption<T> | null>(null);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const selectOption = (option: TSelectOption<T>) => {
-    setSelectedOption(option);
-  };
+  const selectedOption = options.find((opt) => opt.value === value);
 
-  const clearSelectedOption = () => {
-    setSelectedOption(null);
-  };
-
-  const handleOptionClick = (option: TSelectOption<T>) => {
-    const selected = options.find((optionsItem) => optionsItem.id === option.id);
-    if (selected) {
-      selectedOption && selectedOption.id === selected.id ? clearSelectedOption() : selectOption(selected);
-    }
-    setIsSelectOpen(false);
-  };
+  const handleOptionClick = useCallback(
+    (option: TSelectOption<T>) => {
+      if (option.value === value) {
+        onChange('' as T);
+      } else {
+        onChange(option.value);
+      }
+      setIsSelectOpen(false);
+    },
+    [onChange, value]
+  );
 
   useEffect(() => {
+    if (!isSelectOpen) return;
+
     const handleClickOutside = (e: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
         setIsSelectOpen(false);
@@ -77,8 +80,7 @@ export const Select = <T,>({
       ref={selectRef}
     >
       <button className='selector__button' onClick={() => setIsSelectOpen((open) => !open)}>
-        {selectedOption ? <SelectOptionContentComponent option={selectedOption} /> : placeholder}
-
+        {!!selectedOption ? <SelectOptionContentComponent option={selectedOption} /> : placeholder}
         <ChevronDown className='selector__icon' />
       </button>
 
@@ -87,7 +89,6 @@ export const Select = <T,>({
           {options.map((option) => {
             return (
               <li
-                id={option.id}
                 key={option.id}
                 className={clsx('selector__option', {
                   selector__option_selected: selectedOption?.id === option.id

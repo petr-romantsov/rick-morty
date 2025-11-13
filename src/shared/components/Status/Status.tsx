@@ -5,10 +5,10 @@ import './Status.scss';
 export type TStatus = 'alive' | 'dead' | 'unknown';
 
 type TStatusProps = {
-  status: TStatus;
+  status: TStatus | null;
 };
 
-export const Status = ({ status }: TStatusProps) => {
+export const Status = ({ status = 'unknown' }: TStatusProps) => {
   return (
     <span
       className={classnames('status', {
