@@ -1,3 +1,5 @@
+import { useCallback, useEffect } from 'react';
+
 import { Link } from 'react-router';
 
 import RickImage from '@/assets/img/rick-image.png';
@@ -16,10 +18,55 @@ type TCharachterCardProps = {
 };
 
 export const CharacterCard = ({ character }: TCharachterCardProps) => {
-  const { readonly, setReadonly, statusValue, setStatusValue } = useEditCharacterCard({ character });
+  const {
+    readonly,
+    setReadonly,
+    statusValue,
+    setStatusValue,
+    nameValue,
+    setNameValue,
+    locationValue,
+    setLocationValue,
+    savedCharacterRef
+  } = useEditCharacterCard({ character });
 
   const handleEditButtonClick = () => setReadonly(false);
-  const handleCloseButtonClick = () => setReadonly(true);
+  const handleCloseButtonClick = () => {
+    const savedCharacter = savedCharacterRef.current;
+    setNameValue(savedCharacter.name);
+    setLocationValue(savedCharacter.location.name);
+    setStatusValue(savedCharacter.status);
+    setReadonly(true);
+  };
+
+  const handleSaveButtonClick = useCallback(() => {
+    character.name = nameValue;
+    character.location.name = locationValue;
+    character.status = statusValue;
+
+    savedCharacterRef.current = { ...character };
+
+    setReadonly(true);
+  }, [character, nameValue, locationValue, statusValue, savedCharacterRef]);
+
+  const handleNameChange = (value: string) => setNameValue(value);
+  const handleLocationChange = (value: string) => setLocationValue(value);
+
+  useEffect(() => {
+    if (readonly) return;
+
+    const handleEnterKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.stopPropagation();
+        handleSaveButtonClick();
+      }
+    };
+
+    document.addEventListener('keydown', handleEnterKeyPress);
+
+    return () => document.removeEventListener('keydown', handleEnterKeyPress);
+  }, [readonly, handleSaveButtonClick]);
 
   return (
     <div className='characterCard'>
@@ -27,10 +74,10 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
       <div className='characterCard__content'>
         {readonly ? (
           <Link className='characterCard__link' to={`/character/${character.id}`}>
-            {character.name}
+            {nameValue || character.name}
           </Link>
         ) : (
-          <Input value={character.name} onChange={() => null} view='underlined' readonly={readonly} />
+          <Input value={nameValue} onChange={handleNameChange} view='underlined' readonly={readonly} />
         )}
         <div className='characterCard__property'>
           <h3 className='characterCard__propertyName'>Gender</h3>
@@ -43,8 +90,8 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
         <div className='characterCard__property'>
           <h3 className='characterCard__propertyName'>Location</h3>
           <Input
-            value={character.location.name}
-            onChange={() => null}
+            value={locationValue}
+            onChange={handleLocationChange}
             view='underlined'
             size='small'
             readonly={readonly}
@@ -55,8 +102,8 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
           <div className='characterCard__status'>
             {readonly ? (
               <>
-                <span>{STATUS_LABELS[character.status]}</span>
-                <Status status={character.status} />
+                <span>{STATUS_LABELS[statusValue || character.status]}</span>
+                <Status status={statusValue || character.status} />
               </>
             ) : (
               <Select
@@ -76,7 +123,12 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
           </div>
         </div>
       </div>
-      <CardButtons readonly={readonly} onEdit={handleEditButtonClick} onClose={handleCloseButtonClick} />
+      <CardButtons
+        readonly={readonly}
+        onEdit={handleEditButtonClick}
+        onClose={handleCloseButtonClick}
+        onSave={handleSaveButtonClick}
+      />
     </div>
   );
 };
