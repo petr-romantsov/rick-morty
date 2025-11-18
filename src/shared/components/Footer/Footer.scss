@@ -1,13 +1,9 @@
 .footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px 0;
-  margin-top: auto;
+
   box-shadow: 0 -3px 5px var(--color-shadow);
 
   &__text {

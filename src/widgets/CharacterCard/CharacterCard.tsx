@@ -55,18 +55,22 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
   useEffect(() => {
     if (readonly) return;
 
-    const handleEnterKeyPress = (event: KeyboardEvent) => {
+    const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         event.preventDefault();
         event.stopPropagation();
         handleSaveButtonClick();
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
+        handleCloseButtonClick();
       }
     };
 
-    document.addEventListener('keydown', handleEnterKeyPress);
+    document.addEventListener('keydown', handleKeyPress);
 
-    return () => document.removeEventListener('keydown', handleEnterKeyPress);
-  }, [readonly, handleSaveButtonClick]);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [readonly, handleSaveButtonClick, handleCloseButtonClick]);
 
   return (
     <div className='characterCard'>
