@@ -3,7 +3,7 @@
   display: flex;
   gap: 13px;
   padding: 7px;
-  min-width: 508px;
+  max-width: 508px;
   border-radius: 6px;
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
 
@@ -28,6 +28,12 @@
 
   &__link {
     position: relative;
+    width: 178px;
+    font-size: 20px;
+    line-height: 150%;
+    letter-spacing: 0.01em;
+    font-family: var(--roboto-font-family);
+    color: var(--color-text-black);
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
