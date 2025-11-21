@@ -6,42 +6,38 @@ import { GENDER_OPTIONS, Input, SPECIES_OPTIONS, STATUS_OPTIONS, Select } from '
 import './FilterPanel.scss';
 
 export const FilterPanel = () => {
-  const {
-    nameValue,
-    setNameValue,
-    speciesValue,
-    setSpeciesValue,
-    genderValue,
-    setGenderValue,
-    statusValue,
-    setStatusValue
-  } = useFilterPanel();
+  const { filters, handleFilterChange, handleNameChange } = useFilterPanel();
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
 
   return (
     <form className='filterPanel' onSubmit={onSubmit}>
-      <Input view='bordered' value={nameValue} placeholder='Filter by name...' onChange={setNameValue} />
+      <Input
+        view='bordered'
+        value={filters.name}
+        placeholder='Filter by name...'
+        onChange={handleNameChange}
+      />
       <Select
-        value={speciesValue}
+        value={filters.species}
         options={SPECIES_OPTIONS}
         placeholder='Species'
         size='medium'
-        onChange={setSpeciesValue}
+        onChange={(value) => handleFilterChange('species', value)}
       />
       <Select
-        value={genderValue}
+        value={filters.gender}
         options={GENDER_OPTIONS}
         placeholder='Gender'
         size='medium'
-        onChange={setGenderValue}
+        onChange={(value) => handleFilterChange('gender', value)}
       />
       <Select
-        value={statusValue}
+        value={filters.status}
         options={STATUS_OPTIONS}
         placeholder='Status'
         size='medium'
-        onChange={setStatusValue}
+        onChange={(value) => handleFilterChange('status', value)}
       />
     </form>
   );

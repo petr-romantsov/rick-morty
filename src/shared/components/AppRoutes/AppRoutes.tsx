@@ -8,7 +8,7 @@ export const AppRoutes = () => {
     <Routes>
       <Route path='/' element={<PageLayout />} />
       <Route index element={<CharactersList />} />
-      <Route path='characters' element={<Character />} />
+      <Route path='character' element={<Character />} />
     </Routes>
   );
 };

@@ -20,3 +20,10 @@ export type TCharacter = {
   url: string;
   created: string;
 };
+
+export type TFilters = {
+  name: string;
+  species: string;
+  gender: string;
+  status: TStatus | null;
+};

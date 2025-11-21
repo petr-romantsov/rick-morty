@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { type FormEventHandler, useCallback, useEffect } from 'react';
 
 import { Link } from 'react-router';
 
@@ -26,28 +26,30 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
     nameValue,
     setNameValue,
     locationValue,
-    setLocationValue,
-    savedCharacterRef
+    setLocationValue
   } = useEditCharacterCard({ character });
 
-  const handleEditButtonClick = () => setReadonly(false);
-  const handleCloseButtonClick = () => {
-    const savedCharacter = savedCharacterRef.current;
-    setNameValue(savedCharacter.name);
-    setLocationValue(savedCharacter.location.name);
-    setStatusValue(savedCharacter.status);
-    setReadonly(true);
+  const handleEditButtonClick = () => {
+    console.log('edit');
+    setReadonly(false);
   };
 
-  const handleSaveButtonClick = useCallback(() => {
+  const handleCloseButtonClick = useCallback(() => {
+    setNameValue(character.name);
+    setLocationValue(character.location.name);
+    setStatusValue(character.status);
+    setReadonly(true);
+  }, [character.name, character.location.name, character.status]);
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
     character.name = nameValue;
     character.location.name = locationValue;
     character.status = statusValue;
 
-    savedCharacterRef.current = { ...character };
-
     setReadonly(true);
-  }, [character, nameValue, locationValue, statusValue, savedCharacterRef]);
+  };
 
   const handleNameChange = (value: string) => setNameValue(value);
   const handleLocationChange = (value: string) => setLocationValue(value);
@@ -56,11 +58,7 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
     if (readonly) return;
 
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        event.stopPropagation();
-        handleSaveButtonClick();
-      } else if (event.key === 'Escape') {
+      if (event.key === 'Escape') {
         event.preventDefault();
         event.stopPropagation();
         handleCloseButtonClick();
@@ -70,10 +68,10 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
     document.addEventListener('keydown', handleKeyPress);
 
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [readonly, handleSaveButtonClick, handleCloseButtonClick]);
+  }, [readonly, handleCloseButtonClick]);
 
   return (
-    <div className='characterCard'>
+    <form className='characterCard' onSubmit={handleSubmit}>
       <img src={RickImage} alt='Character image' className='characterCard__img' />
       <div className='characterCard__content'>
         {readonly ? (
@@ -131,8 +129,8 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
         readonly={readonly}
         onEdit={handleEditButtonClick}
         onClose={handleCloseButtonClick}
-        onSave={handleSaveButtonClick}
+        // onSave={handleSaveButtonClick}
       />
-    </div>
+    </form>
   );
 };
