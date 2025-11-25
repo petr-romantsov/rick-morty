@@ -30,7 +30,6 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
   } = useEditCharacterCard({ character });
 
   const handleEditButtonClick = () => {
-    console.log('edit');
     setReadonly(false);
   };
 
@@ -125,12 +124,7 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
           </div>
         </div>
       </div>
-      <CardButtons
-        readonly={readonly}
-        onEdit={handleEditButtonClick}
-        onClose={handleCloseButtonClick}
-        // onSave={handleSaveButtonClick}
-      />
+      <CardButtons readonly={readonly} onEdit={handleEditButtonClick} onClose={handleCloseButtonClick} />
     </form>
   );
 };
