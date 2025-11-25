@@ -1,4 +1,4 @@
-import { type FormEventHandler, useEffect, useRef } from 'react';
+import { type FormEventHandler } from 'react';
 
 import { useFilterPanel } from '@/hooks';
 import { GENDER_OPTIONS, Input, SPECIES_OPTIONS, STATUS_OPTIONS, Select } from '@/shared/components';

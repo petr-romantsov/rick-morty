@@ -1,5 +1,6 @@
 .selector {
   $p: &;
+
   position: relative;
 
   &_size_medium {
@@ -38,8 +39,8 @@
       }
 
       &__options {
-        visibility: visible;
         opacity: 1;
+        visibility: visible;
       }
     }
   }
@@ -48,20 +49,18 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    align-self: flex-start;
     gap: 8px;
-
     width: 100%;
     padding: 18px 14px;
     border: 1px solid var(--color-border);
     border-radius: 6px;
-    background-color: transparent;
-
     font-size: 16px;
     font-weight: 400;
     line-height: 119%;
     color: var(--color-text-gray);
+    background-color: transparent;
     cursor: pointer;
+    align-self: flex-start;
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
@@ -77,19 +76,19 @@
 
   &__options {
     position: absolute;
-    left: 0;
     top: calc(100% + 8px);
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    left: 0;
+    z-index: 10;
     width: 100%;
+    margin: 0;
+    padding: 0;
     border: 1px solid var(--color-border);
     border-radius: 6px;
-    overflow: hidden;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease-in-out;
-    z-index: 10;
+    list-style: none;
+    overflow: hidden;
   }
 
   &__option {
