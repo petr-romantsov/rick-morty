@@ -1,21 +1,24 @@
 .customInput {
   $p: &;
+
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: border-color 0.3s ease-in-out;
+  font-family: var(--roboto-font-family);
+  transition: border-color 0.2s linear;
 
   &_view_bordered {
     width: 240px;
     height: 56px;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
     padding: 0 16px;
+    border: 1px solid;
+    border-radius: 8px;
+    border-color: var(--color-border);
 
     #{$p} {
       &__input {
-        font-weight: 400;
         font-size: 16px;
+        font-weight: 400;
         line-height: 150%;
         color: var(--color-border);
       }
@@ -23,16 +26,17 @@
   }
 
   &_view_underlined {
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--color-text-black);
+    padding-bottom: 2px;
+    border-bottom: 1px solid;
+    border-color: var(--color-text-black);
     color: var(--color-text-black);
 
     &.customInput_size_medium {
       #{$p} {
         &__input {
           width: 178px;
-          font-weight: 500;
           font-size: 20px;
+          font-weight: 500;
           line-height: 150%;
           letter-spacing: 0.01em;
         }
@@ -43,8 +47,8 @@
       #{$p} {
         &__input {
           width: 115px;
-          font-weight: 400;
           font-size: 14px;
+          font-weight: 400;
           line-height: 150%;
           letter-spacing: 0.02em;
           color: var(--color-text-gray);
@@ -54,8 +58,9 @@
   }
 
   &__input {
-    border: none;
     padding: 0;
+    border: none;
+
     &:focus {
       outline: none;
     }

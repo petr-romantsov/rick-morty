@@ -1,15 +1,26 @@
 import { type TSelectOption, type TStatus } from '@/shared';
 
 export const SPECIES_OPTIONS: TSelectOption[] = [
-  { id: 'species-1', value: 'human', label: 'Human' },
-  { id: 'species-2', value: 'alien', label: 'Alien' },
-  { id: 'species-3', value: 'humanoid', label: 'Humanoid' },
-  { id: 'species-4', value: 'animal', label: 'Animal' },
-  { id: 'species-5', value: 'robot', label: 'Robot' }
+  { value: 'human', label: 'Human' },
+  { value: 'alien', label: 'Alien' },
+  { value: 'humanoid', label: 'Humanoid' },
+  { value: 'animal', label: 'Animal' },
+  { value: 'robot', label: 'Robot' },
+  { value: 'cronenberg', label: 'Cronenberg' },
+  { value: 'mythology', label: 'Mythology' },
+  { value: 'disease', label: 'Disease' },
+  { value: 'unknown', label: 'Unknown' }
 ];
 
 export const STATUS_OPTIONS: TSelectOption<TStatus>[] = [
-  { id: 'status-1', value: 'alive', label: 'Alive' },
-  { id: 'status-2', value: 'dead', label: 'Dead' },
-  { id: 'status-3', value: 'unknown', label: 'Unknown' }
+  { value: 'alive', label: 'Alive' },
+  { value: 'dead', label: 'Dead' },
+  { value: 'unknown', label: 'Unknown' }
+];
+
+export const GENDER_OPTIONS: TSelectOption[] = [
+  { value: 'female', label: 'Female' },
+  { value: 'male', label: 'Male' },
+  { value: 'genderless', label: 'Genderless' },
+  { value: 'unknown', label: 'Unknown' }
 ];

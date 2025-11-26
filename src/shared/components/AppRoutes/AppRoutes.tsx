@@ -6,9 +6,9 @@ import { PageLayout } from '@/shared';
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route index element={<PageLayout />} />
+      <Route path='/' element={<PageLayout />} />
+      <Route index element={<CharactersList />} />
       <Route path='character' element={<Character />} />
-      <Route path='characters' element={<CharactersList />} />
     </Routes>
   );
 };

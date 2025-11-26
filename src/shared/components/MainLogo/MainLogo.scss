@@ -2,8 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   width: 100%;
+  padding: 26px 0 16px;
+  overflow: hidden;
 
   &__img {
     width: 600px;

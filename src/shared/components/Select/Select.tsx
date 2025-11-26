@@ -7,7 +7,6 @@ import { ChevronDown } from '@/assets/icons';
 import './Select.scss';
 
 export type TSelectOption<T = string> = {
-  id: string;
   value: T;
   label: string;
 };
@@ -79,19 +78,19 @@ export const Select = <T,>({
       })}
       ref={selectRef}
     >
-      <button className='selector__button' onClick={() => setIsSelectOpen((open) => !open)}>
+      <button className='selector__button' onClick={() => setIsSelectOpen((open) => !open)} type='button'>
         {!!selectedOption ? <SelectOptionContentComponent option={selectedOption} /> : placeholder}
         <ChevronDown className='selector__icon' />
       </button>
 
       {isSelectOpen && (
         <ul className='selector__options'>
-          {options.map((option) => {
+          {options.map((option, index) => {
             return (
               <li
-                key={option.id}
+                key={String(option.value) || index}
                 className={clsx('selector__option', {
-                  selector__option_selected: selectedOption?.id === option.id
+                  selector__option_selected: selectedOption?.value === option.value
                 })}
                 onClick={() => handleOptionClick(option)}
               >

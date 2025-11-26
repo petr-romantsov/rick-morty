@@ -1,3 +1,5 @@
+import { type FormEventHandler, useCallback, useEffect } from 'react';
+
 import { Link } from 'react-router';
 
 import RickImage from '@/assets/img/rick-image.png';
@@ -16,21 +18,67 @@ type TCharachterCardProps = {
 };
 
 export const CharacterCard = ({ character }: TCharachterCardProps) => {
-  const { readonly, setReadonly, statusValue, setStatusValue } = useEditCharacterCard({ character });
+  const {
+    readonly,
+    setReadonly,
+    statusValue,
+    setStatusValue,
+    nameValue,
+    setNameValue,
+    locationValue,
+    setLocationValue
+  } = useEditCharacterCard({ character });
 
-  const handleEditButtonClick = () => setReadonly(false);
-  const handleCloseButtonClick = () => setReadonly(true);
+  const handleEditButtonClick = () => {
+    setReadonly(false);
+  };
+
+  const handleCloseButtonClick = useCallback(() => {
+    setNameValue(character.name);
+    setLocationValue(character.location.name);
+    setStatusValue(character.status);
+    setReadonly(true);
+  }, [character.name, character.location.name, character.status]);
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    character.name = nameValue;
+    character.location.name = locationValue;
+    character.status = statusValue;
+
+    setReadonly(true);
+  };
+
+  const handleNameChange = (value: string) => setNameValue(value);
+  const handleLocationChange = (value: string) => setLocationValue(value);
+
+  useEffect(() => {
+    if (readonly) return;
+
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
+        handleCloseButtonClick();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [readonly, handleCloseButtonClick]);
 
   return (
-    <div className='characterCard'>
+    <form className='characterCard' onSubmit={handleSubmit}>
       <img src={RickImage} alt='Character image' className='characterCard__img' />
       <div className='characterCard__content'>
         {readonly ? (
           <Link className='characterCard__link' to={`/character/${character.id}`}>
-            {character.name}
+            {nameValue || character.name}
           </Link>
         ) : (
-          <Input value={character.name} onChange={() => null} view='underlined' readonly={readonly} />
+          <Input value={nameValue} onChange={handleNameChange} view='underlined' readonly={readonly} />
         )}
         <div className='characterCard__property'>
           <h3 className='characterCard__propertyName'>Gender</h3>
@@ -43,8 +91,8 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
         <div className='characterCard__property'>
           <h3 className='characterCard__propertyName'>Location</h3>
           <Input
-            value={character.location.name}
-            onChange={() => null}
+            value={locationValue}
+            onChange={handleLocationChange}
             view='underlined'
             size='small'
             readonly={readonly}
@@ -55,8 +103,8 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
           <div className='characterCard__status'>
             {readonly ? (
               <>
-                <span>{STATUS_LABELS[character.status]}</span>
-                <Status status={character.status} />
+                <span>{STATUS_LABELS[statusValue || character.status]}</span>
+                <Status status={statusValue || character.status} />
               </>
             ) : (
               <Select
@@ -77,6 +125,6 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
         </div>
       </div>
       <CardButtons readonly={readonly} onEdit={handleEditButtonClick} onClose={handleCloseButtonClick} />
-    </div>
+    </form>
   );
 };

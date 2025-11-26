@@ -1,3 +1,4 @@
+@import './normalize.css';
 @import './assets/fonts/fonts.css';
 
 html {
@@ -12,12 +13,12 @@ html {
 
 html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
   font-family: var(--roboto-font-family);
-  font-weight: 400;
   font-size: 16px;
+  font-weight: 400;
 }
 
 a {
@@ -27,8 +28,8 @@ a {
 }
 
 img {
-  max-width: 100%;
   height: 100%;
+  max-width: 100%;
 }
 
 p {
@@ -37,12 +38,12 @@ p {
 
 :root {
   --roboto-font-family: 'Roboto', sans-serif;
-  --color-bg-white: #ffffff;
+  --color-bg-white: #fff;
   --color-text-black: #000000de;
-  --color-text-gray: #00000099;
+  --color-text-gray: #0009;
   --color-status-green: #12b800;
   --color-status-red: #df0000;
-  --color-status-orange: #ff9900;
+  --color-status-orange: #f90;
   --color-shadow: #cccbcb;
   --color-border: #00000080;
 }

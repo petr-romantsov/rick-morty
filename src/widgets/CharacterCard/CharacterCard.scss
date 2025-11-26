@@ -2,16 +2,16 @@
   position: relative;
   display: flex;
   gap: 13px;
+  max-width: 508px;
   padding: 7px;
-  min-width: 508px;
   border-radius: 6px;
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 1px 4px 0 rgb(0 0 0 / 25%);
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       .cardButtons__btn_edit {
-        visibility: visible;
         opacity: 1;
+        visibility: visible;
       }
     }
   }
@@ -28,6 +28,12 @@
 
   &__link {
     position: relative;
+    width: 178px;
+    font-family: var(--roboto-font-family);
+    font-size: 20px;
+    line-height: 150%;
+    letter-spacing: 0.01em;
+    color: var(--color-text-black);
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
@@ -39,14 +45,14 @@
 
     &::after {
       position: absolute;
-      content: '';
-      left: 0;
       bottom: -3px;
+      left: 0;
       width: 100%;
       height: 1px;
       background-color: var(--color-text-black);
-      transform-origin: center;
+      content: '';
       transform: scaleX(0);
+      transform-origin: center;
       transition: transform 0.3s linear;
     }
   }
@@ -58,16 +64,16 @@
 
   &__propertyName {
     margin: 0;
-    font-weight: 500;
     font-size: 16px;
+    font-weight: 500;
     line-height: 131%;
     letter-spacing: 0.02em;
     color: var(--color-text-black);
   }
 
   &__propertyValue {
-    font-weight: 400;
     font-size: 14px;
+    font-weight: 400;
     line-height: 150%;
     letter-spacing: 0.02em;
     color: var(--color-text-gray);
@@ -75,10 +81,10 @@
 
   &__status {
     display: flex;
-    gap: 6px;
     align-items: center;
-    font-weight: 400;
+    gap: 6px;
     font-size: 14px;
+    font-weight: 400;
     line-height: 150%;
     letter-spacing: 0.02em;
     color: var(--color-text-gray);
