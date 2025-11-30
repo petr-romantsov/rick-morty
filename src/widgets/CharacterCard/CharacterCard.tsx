@@ -12,12 +12,11 @@ import { CardButtons } from './components/CardButtons/CardButtons';
 
 import './CharacterCard.scss';
 
-type TCharachterCardProps = {
+type TCharacterCardProps = {
   character: TCharacter;
-  readonly: boolean;
 };
 
-export const CharacterCard = ({ character }: TCharachterCardProps) => {
+export const CharacterCard = ({ character }: TCharacterCardProps) => {
   const {
     readonly,
     setReadonly,
@@ -71,7 +70,7 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
 
   return (
     <form className='characterCard' onSubmit={handleSubmit}>
-      <img src={RickImage} alt='Character image' className='characterCard__img' />
+      <img src={character.image} alt={`${character.name} image`} className='characterCard__img' />
       <div className='characterCard__content'>
         {readonly ? (
           <Link className='characterCard__link' to={`/character/${character.id}`}>
