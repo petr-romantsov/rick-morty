@@ -2,7 +2,6 @@ import { type FormEventHandler, useCallback, useEffect } from 'react';
 
 import { Link } from 'react-router';
 
-import RickImage from '@/assets/img/rick-image.png';
 import { useEditCharacterCard } from '@/hooks';
 import { Input, STATUS_OPTIONS, Select, Status } from '@/shared/components';
 import { STATUS_LABELS } from '@/shared/constants';

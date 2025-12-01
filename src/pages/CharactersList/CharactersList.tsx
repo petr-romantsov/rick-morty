@@ -1,51 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
-import { getCharacters } from '@/api/getCharacters';
-import { Loader, MainLogo, PageLayout } from '@/shared';
-import type { TCharacter } from '@/shared/types';
+import toast, { Toaster } from 'react-hot-toast';
+
+import { useLoadCharacters } from '@/hooks/useLoadCharacters';
+import { Loader, MainLogo, PageLayout } from '@/shared/components';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
 import './CharactersList.scss';
 
 export const CharactersList = () => {
-  const [characters, setCharacters] = useState<TCharacter[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { characters, isLoading, error } = useLoadCharacters();
+
+  const showErrorToast = useCallback((message: string): void => {
+    toast.error(message);
+  }, []);
 
   useEffect(() => {
-    const loadCharacters = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const data = await getCharacters();
-        setCharacters(data);
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        setError(message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadCharacters();
-  }, []);
+    if (error) {
+      showErrorToast(error);
+    }
+  }, [error]);
 
   if (isLoading) {
     return (
       <PageLayout>
         <MainLogo />
         <Loader size='large' text='Loading characters...' />
-      </PageLayout>
-    );
-  }
-
-  if (error) {
-    return (
-      <PageLayout>
-        <MainLogo />
-        <div style={{ textAlign: 'center', padding: '2rem' }}>
-          <p style={{ color: 'red' }}>{error}</p>
-        </div>
       </PageLayout>
     );
   }
@@ -61,6 +41,17 @@ export const CharactersList = () => {
           </li>
         ))}
       </ul>
+      <Toaster
+        position='bottom-right'
+        toastOptions={{
+          style: {
+            backgroundColor: '#fff5f3',
+            border: '1px solid #f4b0a1',
+            borderRadius: '12px',
+            background: '#fff5f3'
+          }
+        }}
+      />
     </PageLayout>
   );
 };
