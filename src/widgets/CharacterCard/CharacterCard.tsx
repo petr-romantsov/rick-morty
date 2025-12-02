@@ -2,7 +2,6 @@ import { type FormEventHandler, useCallback, useEffect } from 'react';
 
 import { Link } from 'react-router';
 
-import RickImage from '@/assets/img/rick-image.png';
 import { useEditCharacterCard } from '@/hooks';
 import { Input, STATUS_OPTIONS, Select, Status } from '@/shared/components';
 import { STATUS_LABELS } from '@/shared/constants';
@@ -12,12 +11,11 @@ import { CardButtons } from './components/CardButtons/CardButtons';
 
 import './CharacterCard.scss';
 
-type TCharachterCardProps = {
+type TCharacterCardProps = {
   character: TCharacter;
-  readonly: boolean;
 };
 
-export const CharacterCard = ({ character }: TCharachterCardProps) => {
+export const CharacterCard = ({ character }: TCharacterCardProps) => {
   const {
     readonly,
     setReadonly,
@@ -71,7 +69,7 @@ export const CharacterCard = ({ character }: TCharachterCardProps) => {
 
   return (
     <form className='characterCard' onSubmit={handleSubmit}>
-      <img src={RickImage} alt='Character image' className='characterCard__img' />
+      <img src={character.image} alt={`${character.name} image`} className='characterCard__img' />
       <div className='characterCard__content'>
         {readonly ? (
           <Link className='characterCard__link' to={`/character/${character.id}`}>

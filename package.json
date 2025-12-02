@@ -13,9 +13,11 @@
     "format:css": "npm run lint:css:fix"
   },
   "dependencies": {
+    "axios": "^1.13.2",
     "clsx": "^2.1.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hot-toast": "^2.6.0",
     "react-router": "^7.9.3"
   },
   "devDependencies": {

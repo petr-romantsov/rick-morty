@@ -86,7 +86,8 @@
     "order/properties-alphabetical-order": null,
     "scss/at-rule-no-unknown": null,
     "scss/at-import-partial-extension": null,
-    "no-empty-source": null
+    "no-empty-source": null,
+    "selector-class-pattern": null
   },
   "ignoreFiles": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "node_modules/**"]
 }

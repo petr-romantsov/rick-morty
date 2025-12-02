@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   gap: 13px;
-  max-width: 508px;
+  width: 100%;
   padding: 7px;
   border-radius: 6px;
   box-shadow: 1px 1px 4px 0 rgb(0 0 0 / 25%);
@@ -17,6 +17,9 @@
   }
 
   &__img {
+    width: 240px;
+    height: 234px;
+    object-fit: cover;
     border-radius: 6px 6px 0 0;
   }
 
