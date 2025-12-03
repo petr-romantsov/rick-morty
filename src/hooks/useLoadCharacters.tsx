@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import { getCharacters } from '@/api/getCharacters';
-import type { TCharacter } from '@/shared/types';
+import type { TCharacter, TFilters } from '@/shared/types';
 
-export const useLoadCharacters = () => {
+type TUseLoadCharactersProps = {
+  filters: TFilters;
+};
+
+export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
   const [characters, setCharacters] = useState<TCharacter[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -12,7 +16,7 @@ export const useLoadCharacters = () => {
     const loadCharacters = async () => {
       try {
         setIsLoading(true);
-        const data = await getCharacters();
+        const data = await getCharacters(filters);
         setCharacters(data);
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
@@ -23,7 +27,7 @@ export const useLoadCharacters = () => {
     };
 
     loadCharacters();
-  }, []);
+  }, [filters]);
 
   return { characters, isLoading, error };
 };
