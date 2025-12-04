@@ -10,7 +10,8 @@ export default defineConfig({
     svgr(),
     stylelint({
       include: ['src/**/*.css', 'src/**/*.scss', 'src/**/*.sass'],
-      fix: true
+      fix: true,
+      cache: false
     })
   ],
   resolve: {

@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "lint:css": "stylelint \"src/**/*.{css,scss,sass}\"",
-    "lint:css:fix": "stylelint \"src/**/*.{css,scss,sass}\" --fix",
+    "lint:css": "stylelint \"src/**/*.{css,scss,sass}\" --no-cache",
+    "lint:css:fix": "stylelint \"src/**/*.{css,scss,sass}\" --fix --no-cache",
     "format:css": "npm run lint:css:fix"
   },
   "dependencies": {
