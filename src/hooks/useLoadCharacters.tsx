@@ -13,12 +13,18 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     const loadCharacters = async () => {
       try {
         setIsLoading(true);
-        const data = await getCharacters(filters);
+        const data = await getCharacters(filters, signal);
         setCharacters(data);
       } catch (error) {
+        if (error instanceof Error && (error.message === 'Request aborted' || error.name === 'AbortError')) {
+          return;
+        }
         const message = error instanceof Error ? error.message : String(error);
         setError(message);
       } finally {
@@ -27,6 +33,8 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
     };
 
     loadCharacters();
+
+    return () => controller.abort();
   }, [filters]);
 
   return { characters, isLoading, error };

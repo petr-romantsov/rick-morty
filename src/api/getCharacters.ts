@@ -4,7 +4,7 @@ import { type TCharacter, type TFilters } from '@/shared/types';
 
 const API_URL = 'https://rickandmortyapi.com/api/character/';
 
-export const getCharacters = async (filters: TFilters): Promise<TCharacter[]> => {
+export const getCharacters = async (filters: TFilters, signal?: AbortSignal): Promise<TCharacter[]> => {
   const { name, species, gender, status } = filters;
   const queryParams = new URLSearchParams();
   if (name) queryParams.append('name', name);
@@ -16,9 +16,13 @@ export const getCharacters = async (filters: TFilters): Promise<TCharacter[]> =>
   const url = queryString ? `${API_URL}?${queryString}` : API_URL;
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, { signal });
     return response.data.results;
   } catch (error) {
+    if (signal?.aborted || (axios.isAxiosError(error) && error.code === 'ERR_CANCELED')) {
+      throw new Error('Request aborted');
+    }
+
     if (axios.isAxiosError(error)) {
       throw new Error(
         error.response?.status
