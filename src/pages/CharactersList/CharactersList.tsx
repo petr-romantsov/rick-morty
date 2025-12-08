@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import toast, { Toaster } from 'react-hot-toast';
 
-import { useDebounceEffect, useLoadCharacters } from '@/hooks';
+import { useDebounce, useLoadCharacters } from '@/hooks';
 import { ErrorBoundary, Loader, MainLogo, PageLayout } from '@/shared/components';
 import type { TFilters } from '@/shared/types';
 import { CharacterCard, FilterPanel } from '@/widgets';
@@ -19,28 +19,33 @@ export const CharactersList = () => {
   });
   const { characters, isLoading, error } = useLoadCharacters({ filters });
 
-  const handleNameChange = (value: string) => {
-    setNameInputValue(value);
-  };
+  const updateFiltersName = useCallback((value: string) => {
+    setFilters((prevFilters) => ({ ...prevFilters, name: value }));
+  }, []);
 
-  const handleFilterChange = (filter: keyof TFilters, value: string | null) => {
+  const debouncedUpdateFiltersName = useDebounce({
+    cb: updateFiltersName,
+    delay: 1000
+  });
+
+  const handleNameChange = useCallback(
+    (value: string) => {
+      setNameInputValue(value);
+      debouncedUpdateFiltersName(value);
+    },
+    [debouncedUpdateFiltersName]
+  );
+
+  const handleFilterChange = useCallback((filter: keyof TFilters, value: string | null) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filter]: value
     }));
-  };
+  }, []);
 
   const showErrorToast = useCallback((message: string): void => {
     toast.error(message);
   }, []);
-
-  useDebounceEffect({
-    effect: () => {
-      setFilters((prevFilters) => ({ ...prevFilters, name: nameInputValue }));
-    },
-    deps: [nameInputValue],
-    delay: 1000
-  });
 
   useEffect(() => {
     if (error) {

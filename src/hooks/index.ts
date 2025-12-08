@@ -1,3 +1,3 @@
 export * from './useEditCharacterCard';
-export * from './useDebounceEffect';
+export * from './useDebounce';
 export * from './useLoadCharacters';

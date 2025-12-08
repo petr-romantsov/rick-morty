@@ -6,17 +6,10 @@ const API_URL = 'https://rickandmortyapi.com/api/character/';
 
 export const getCharacters = async (filters: TFilters, signal?: AbortSignal): Promise<TCharacter[]> => {
   const { name, species, gender, status } = filters;
-  const queryParams = new URLSearchParams();
-  if (name) queryParams.append('name', name);
-  if (species) queryParams.append('species', species);
-  if (gender) queryParams.append('gender', gender);
-  if (status) queryParams.append('status', status);
-
-  const queryString = queryParams.toString();
-  const url = queryString ? `${API_URL}?${queryString}` : API_URL;
+  const params = { name, species, gender, status };
 
   try {
-    const response = await axios.get(url, { signal });
+    const response = await axios.get(API_URL, { params, signal });
     return response.data.results;
   } catch (error) {
     if (signal?.aborted || (axios.isAxiosError(error) && error.code === 'ERR_CANCELED')) {
