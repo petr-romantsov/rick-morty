@@ -1,15 +1,47 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import toast, { Toaster } from 'react-hot-toast';
 
-import { useLoadCharacters } from '@/hooks/useLoadCharacters';
-import { Loader, MainLogo, PageLayout } from '@/shared/components';
+import { useDebounce, useLoadCharacters } from '@/hooks';
+import { ErrorBoundary, Loader, MainLogo, PageLayout } from '@/shared/components';
+import type { TFilters } from '@/shared/types';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
 import './CharactersList.scss';
 
 export const CharactersList = () => {
-  const { characters, isLoading, error } = useLoadCharacters();
+  const [nameInputValue, setNameInputValue] = useState('');
+  const [filters, setFilters] = useState<TFilters>({
+    name: '',
+    species: '',
+    gender: '',
+    status: null
+  });
+  const { characters, isLoading, error } = useLoadCharacters({ filters });
+
+  const updateFiltersName = useCallback((value: string) => {
+    setFilters((prevFilters) => ({ ...prevFilters, name: value }));
+  }, []);
+
+  const debouncedUpdateFiltersName = useDebounce({
+    cb: updateFiltersName,
+    delay: 1000
+  });
+
+  const handleNameChange = useCallback(
+    (value: string) => {
+      setNameInputValue(value);
+      debouncedUpdateFiltersName(value);
+    },
+    [debouncedUpdateFiltersName]
+  );
+
+  const handleFilterChange = useCallback((filter: keyof TFilters, value: string | null) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filter]: value
+    }));
+  }, []);
 
   const showErrorToast = useCallback((message: string): void => {
     toast.error(message);
@@ -33,14 +65,21 @@ export const CharactersList = () => {
   return (
     <PageLayout>
       <MainLogo />
-      <FilterPanel />
-      <ul className='charactersList'>
-        {characters.map((character) => (
-          <li className='charactersList__item' key={character.id}>
-            <CharacterCard character={character} />
-          </li>
-        ))}
-      </ul>
+      <FilterPanel
+        nameValue={nameInputValue}
+        filters={filters}
+        handleFilterChange={handleFilterChange}
+        handleNameChange={handleNameChange}
+      />
+      <ErrorBoundary>
+        <ul className='charactersList'>
+          {characters.map((character) => (
+            <li className='charactersList__item' key={character.id}>
+              <CharacterCard character={character} />
+            </li>
+          ))}
+        </ul>
+      </ErrorBoundary>
       <Toaster
         position='bottom-right'
         toastOptions={{

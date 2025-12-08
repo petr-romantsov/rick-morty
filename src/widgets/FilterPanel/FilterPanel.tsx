@@ -1,23 +1,28 @@
 import { type FormEventHandler } from 'react';
 
-import { useFilterPanel } from '@/hooks';
 import { GENDER_OPTIONS, Input, SPECIES_OPTIONS, STATUS_OPTIONS, Select } from '@/shared/components';
+import type { TFilters } from '@/shared/types';
 
 import './FilterPanel.scss';
 
-export const FilterPanel = () => {
-  const { filters, handleFilterChange, handleNameChange } = useFilterPanel();
+type TFilterPanelProps = {
+  nameValue: string;
+  filters: TFilters;
+  handleFilterChange: (filter: keyof TFilters, value: string | null) => void;
+  handleNameChange: (value: string) => void;
+};
 
+export const FilterPanel = ({
+  nameValue,
+  filters,
+  handleFilterChange,
+  handleNameChange
+}: TFilterPanelProps) => {
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
 
   return (
     <form className='filterPanel' onSubmit={onSubmit}>
-      <Input
-        view='bordered'
-        value={filters.name}
-        placeholder='Filter by name...'
-        onChange={handleNameChange}
-      />
+      <Input view='bordered' value={nameValue} placeholder='Filter by name...' onChange={handleNameChange} />
       <Select
         value={filters.species}
         options={SPECIES_OPTIONS}
