@@ -10,3 +10,4 @@ export * from '../constants/SelectOptions';
 export * from '../components/Status/Status';
 export * from './Input/Input';
 export * from './ErrorBoundary/ErrorBoundary';
+export * from './InfinityScroll/InfinityScroll';

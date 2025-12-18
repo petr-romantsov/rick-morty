@@ -1,7 +1,5 @@
 .error-boundary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+ margin: auto;
 
   
   &__title {
@@ -9,5 +7,9 @@
     font-weight: 700;
     color: var(--color-text-black);
     text-align: center;
+  }
+
+  &__message { 
+    color: var(--color-status-red);
   }
 }

@@ -1,4 +1,4 @@
-import { type FormEventHandler, useCallback, useEffect } from 'react';
+import { type FormEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Link } from 'react-router';
 
@@ -16,6 +16,10 @@ type TCharacterCardProps = {
 };
 
 export const CharacterCard = ({ character }: TCharacterCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [shouldLoadImage, setShouldLoadImage] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
   const {
     readonly,
     setReadonly,
@@ -26,6 +30,33 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
     locationValue,
     setLocationValue
   } = useEditCharacterCard({ character });
+
+  useEffect(() => {
+    if (!imgRef.current || shouldLoadImage) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldLoadImage(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: '100px'
+      }
+    );
+
+    observer.observe(imgRef.current);
+    return () => observer.disconnect();
+  }, [shouldLoadImage]);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoaded(false);
+  };
 
   const handleEditButtonClick = () => {
     setReadonly(false);
@@ -69,7 +100,28 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
 
   return (
     <form className='characterCard' onSubmit={handleSubmit}>
-      <img src={character.image} alt={`${character.name} image`} className='characterCard__img' />
+      <div className='characterCard__imgWrapper'>
+        {shouldLoadImage && !imageLoaded && !imageError && (
+          <span className='characterCard__imgLoading'>Image is loading...</span>
+        )}
+        {shouldLoadImage && !imageError ? (
+          <img
+            ref={imgRef}
+            src={character.image}
+            alt={`${character.name} image`}
+            className='characterCard__img'
+            loading='lazy'
+            width={300}
+            height={300}
+            onError={handleImageError}
+            onLoad={handleImageLoad}
+          />
+        ) : imageError ? (
+          <span className='characterCard__imgError'>Image not availible :(</span>
+        ) : (
+          <div ref={imgRef} className='characterCard__imgPlaceholder'></div>
+        )}
+      </div>
       <div className='characterCard__content'>
         {readonly ? (
           <Link className='characterCard__link' to={`/character/${character.id}`}>

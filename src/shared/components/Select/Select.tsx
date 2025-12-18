@@ -30,7 +30,7 @@ const DefaultSelectOptionContent = <T,>({ option }: SelectOptionContentProps<T>)
 
 export const Select = <T,>({
   value,
-  placeholder = '',
+  placeholder = 'Select an option',
   options,
   onChange,
   size = 'medium',

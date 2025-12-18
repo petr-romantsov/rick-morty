@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 
 import loaderImg from '@/assets/img/loader.png';
+import loaderWebp from '@/assets/img/loader.webp';
 
 import './Loader.scss';
 
@@ -17,7 +18,10 @@ export const Loader = ({ size = 'large', text = '' }: TLoaderProps) => {
         loader_size_large: size === 'large'
       })}
     >
-      <img className='loader__img' src={loaderImg} alt='Loading picture' />
+      <picture>
+        <source srcSet={loaderWebp} type='image/webp' />
+        <img className='loader__img' src={loaderImg} alt='Loading picture' />
+      </picture>
 
       {!!text && <p className='loader__text'>{text}</p>}
     </div>
