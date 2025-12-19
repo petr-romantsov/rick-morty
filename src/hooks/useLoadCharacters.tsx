@@ -7,6 +7,19 @@ type TUseLoadCharactersProps = {
   filters: TFilters;
 };
 
+type TRequestType = 'reset' | 'next';
+
+type TStateRef = {
+  filters: TFilters;
+  currentPage: number;
+  isLoading: boolean;
+  hasNextPage: boolean;
+  isNextPageLoading: boolean;
+};
+
+const isRequestAborted = (error: unknown) =>
+  error instanceof Error && (error.message === 'Request aborted' || error.name === 'AbortError');
+
 export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
   const [characters, setCharacters] = useState<TCharacter[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -14,68 +27,133 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [isNextPageLoading, setIsNextPageLoading] = useState<boolean>(false);
-  const loadNextPageControllerRef = useRef<AbortController | null>(null);
+
+  const stateRef = useRef<TStateRef>({
+    filters,
+    currentPage: 1,
+    isLoading: false,
+    hasNextPage: false,
+    isNextPageLoading: false
+  });
+
+  const resetControllerRef = useRef<AbortController | null>(null);
+  const nextPageControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    setCurrentPage(1);
-    setCharacters([]);
-    const loadCharacters = async () => {
+    stateRef.current = {
+      ...stateRef.current,
+      filters,
+      currentPage,
+      hasNextPage,
+      isLoading,
+      isNextPageLoading
+    };
+  }, [filters, currentPage, hasNextPage, isLoading, isNextPageLoading]);
+
+  const loadCharacters = useCallback(async (requestType: TRequestType) => {
+    if (requestType === 'reset') {
+      resetControllerRef.current?.abort();
+      resetControllerRef.current = null;
+
+      nextPageControllerRef.current?.abort();
+      nextPageControllerRef.current = null;
+
+      const controller = new AbortController();
+      resetControllerRef.current = controller;
+
+      stateRef.current.isLoading = true;
+      stateRef.current.hasNextPage = false;
+      stateRef.current.isNextPageLoading = false;
+      stateRef.current.currentPage = 1;
+
+      setIsNextPageLoading(false);
+      setHasNextPage(false);
+      setCharacters([]);
+      setCurrentPage(1);
+      setIsLoading(true);
+      setError(null);
+
       try {
-        setIsLoading(true);
-        const data = await getCharacters({ filters, signal, page: 1 });
+        const data = await getCharacters({
+          filters: stateRef.current.filters,
+          signal: controller.signal,
+          page: 1
+        });
+
+        if (resetControllerRef.current !== controller) return;
+
         setCharacters(data.results);
-        setHasNextPage(data.info.next !== null);
+        stateRef.current.hasNextPage = !!data.info.next;
+        setHasNextPage(!!data.info.next);
         setError(null);
       } catch (error) {
-        if (error instanceof Error && (error.message === 'Request aborted' || error.name === 'AbortError')) {
-          return;
-        }
+        if (isRequestAborted(error)) return;
         const message = error instanceof Error ? error.message : String(error);
         setError(message);
       } finally {
-        setIsLoading(false);
+        if (resetControllerRef.current === controller) {
+          resetControllerRef.current = null;
+          stateRef.current.isLoading = false;
+          setIsLoading(false);
+        }
       }
-    };
-    loadCharacters();
-
-    return () => controller.abort();
-  }, [filters]);
-
-  const loadNextPage = useCallback(async (): Promise<void> => {
-    if (loadNextPageControllerRef.current) {
-      loadNextPageControllerRef.current.abort();
-    }
-    const controller = new AbortController();
-    loadNextPageControllerRef.current = controller;
-    const signal = controller.signal;
-
-    if (!hasNextPage || isNextPageLoading) {
-      loadNextPageControllerRef.current = null;
-      return;
     }
 
-    setIsNextPageLoading(true);
-    setCurrentPage((prevPage) => prevPage + 1);
+    if (requestType === 'next') {
+      const { isLoading, hasNextPage, isNextPageLoading, currentPage } = stateRef.current;
 
-    try {
+      if (isLoading || !hasNextPage || isNextPageLoading) return;
+
+      nextPageControllerRef.current?.abort();
+      nextPageControllerRef.current = null;
+
+      const controller = new AbortController();
+      nextPageControllerRef.current = controller;
+
+      stateRef.current.isNextPageLoading = true;
+      setIsNextPageLoading(true);
       const nextPage = currentPage + 1;
-      const data = await getCharacters({ filters, signal, page: nextPage });
-      setCharacters((prev) => [...prev, ...data.results]);
-      setHasNextPage(!!data.info.next);
-    } catch (error) {
-      if (error instanceof Error && (error.message === 'Request aborted' || error.name === 'AbortError')) {
-        console.error(error);
-        setCurrentPage((prev) => prev - 1);
-      }
-    } finally {
-      setIsNextPageLoading(false);
-      if (loadNextPageControllerRef.current === controller) {
-        loadNextPageControllerRef.current = null;
+
+      try {
+        const data = await getCharacters({
+          filters: stateRef.current.filters,
+          signal: controller.signal,
+          page: nextPage
+        });
+
+        if (nextPageControllerRef.current !== controller) return;
+
+        setCharacters((prev) => [...prev, ...data.results]);
+        stateRef.current.hasNextPage = !!data.info.next;
+        setHasNextPage(!!data.info.next);
+        stateRef.current.currentPage = nextPage;
+        setCurrentPage(nextPage);
+      } catch (error) {
+        if (isRequestAborted(error)) return;
+        const message = error instanceof Error ? error.message : String(error);
+        setError(message);
+      } finally {
+        if (nextPageControllerRef.current === controller) {
+          nextPageControllerRef.current = null;
+          stateRef.current.isNextPageLoading = false;
+          setIsNextPageLoading(false);
+        }
       }
     }
-  }, [filters, hasNextPage, isNextPageLoading, currentPage]);
+  }, []);
+
+  useEffect(() => {
+    loadCharacters('reset');
+
+    return () => {
+      resetControllerRef.current?.abort();
+      resetControllerRef.current = null;
+      nextPageControllerRef.current?.abort();
+      nextPageControllerRef.current = null;
+    };
+  }, [filters, loadCharacters]);
+
+  const loadNextPage = useCallback(() => loadCharacters('next'), [loadCharacters]);
 
   return { characters, isLoading, error, hasNextPage, isNextPageLoading, loadNextPage };
 };

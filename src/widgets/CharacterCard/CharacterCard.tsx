@@ -15,6 +15,8 @@ type TCharacterCardProps = {
   character: TCharacter;
 };
 
+const IMAGE_OBSERVER_THRESHOLD = '100px';
+
 export const CharacterCard = ({ character }: TCharacterCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -42,7 +44,7 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
         }
       },
       {
-        rootMargin: '100px'
+        rootMargin: IMAGE_OBSERVER_THRESHOLD
       }
     );
 
@@ -53,6 +55,7 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
+
   const handleImageError = () => {
     setImageError(true);
     setImageLoaded(false);
@@ -80,6 +83,7 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
   };
 
   const handleNameChange = (value: string) => setNameValue(value);
+
   const handleLocationChange = (value: string) => setLocationValue(value);
 
   useEffect(() => {
@@ -117,7 +121,7 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
             onLoad={handleImageLoad}
           />
         ) : imageError ? (
-          <span className='characterCard__imgError'>Image not availible :(</span>
+          <span className='characterCard__imgError'>Image not available :(</span>
         ) : (
           <div ref={imgRef} className='characterCard__imgPlaceholder'></div>
         )}

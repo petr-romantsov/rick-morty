@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 
 import './InfinityScroll.scss';
 
+const SENTINEL_OBSERVER_THRESHOLD = '400px';
+
 export type TInfinityScrollProps<T> = {
   items: T[];
   renderItem: (item: T) => React.ReactNode;
@@ -12,6 +14,7 @@ export type TInfinityScrollProps<T> = {
   getItemKey: (item: T) => string | number;
   threshold?: number;
 };
+
 export const InfinityScroll = <T,>({
   items,
   renderItem,
@@ -19,8 +22,7 @@ export const InfinityScroll = <T,>({
   isNextPageLoading,
   hasNextPage,
   loader,
-  getItemKey,
-  threshold = 0.1
+  getItemKey
 }: TInfinityScrollProps<T>) => {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +43,7 @@ export const InfinityScroll = <T,>({
 
     const observer = new IntersectionObserver(handleIntersection, {
       root: null,
-      rootMargin: '400px',
+      rootMargin: SENTINEL_OBSERVER_THRESHOLD,
       threshold: 0
     });
 
@@ -52,7 +54,7 @@ export const InfinityScroll = <T,>({
         observer.disconnect();
       }
     };
-  }, [hasNextPage, isNextPageLoading, loadNextPage, threshold]);
+  }, [hasNextPage, isNextPageLoading, loadNextPage]);
 
   return (
     <div className='infinityScroll'>
