@@ -15,7 +15,7 @@ export const CharactersList = () => {
     gender: '',
     status: null
   });
-  const { characters, isLoading, error, loadNextPage, hasNextPage, isNextPageLoading } = useLoadCharacters({
+  const { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage } = useLoadCharacters({
     filters
   });
 
@@ -50,6 +50,12 @@ export const CharactersList = () => {
   const renderCharacter = useCallback((character: TCharacter) => {
     return <CharacterCard character={character} />;
   }, []);
+
+  const loadNextPage = useCallback(() => {
+    if (!isLoading && hasNextPage) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  }, [isLoading, hasNextPage]);
 
   useEffect(() => {
     if (error) {

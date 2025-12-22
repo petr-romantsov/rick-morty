@@ -7,7 +7,7 @@ const SENTINEL_OBSERVER_THRESHOLD = '400px';
 export type TInfinityScrollProps<T> = {
   items: T[];
   renderItem: (item: T) => React.ReactNode;
-  loadNextPage: () => Promise<void>;
+  loadNextPage: () => void;
   isNextPageLoading: boolean;
   hasNextPage: boolean;
   loader?: React.ReactNode;
@@ -33,11 +33,7 @@ export const InfinityScroll = <T,>({
       const entry = entries[0];
 
       if (entry.isIntersecting && hasNextPage && !isNextPageLoading) {
-        loadNextPage().catch((error) => {
-          if (error.message !== 'Request aborted') {
-            console.error('Error loading next page:', error);
-          }
-        });
+        loadNextPage();
       }
     };
 
