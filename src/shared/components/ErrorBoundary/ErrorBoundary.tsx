@@ -1,5 +1,7 @@
 import { Component, type ErrorInfo, type PropsWithChildren, type ReactNode } from 'react';
 
+import { PageLayout } from '../PageLayout/PageLayout';
+
 import './ErrorBoundary.scss';
 
 type TErrorBoundaryComponentProps = {
@@ -29,9 +31,14 @@ export class ErrorBoundary extends Component<TErrorBoundaryComponentProps, TErro
   render() {
     if (this.state.hasError) {
       return (
-        <div className='error-boundary'>
-          <h2 className='error-boundary__title'>Something went wrong: {this.state.error?.message}</h2>
-        </div>
+        <PageLayout>
+          <div className='error-boundary'>
+            <h2 className='error-boundary__title'>
+              Something went wrong:
+              <span className='error-boundary__message'> {this.state.error?.message}</span>
+            </h2>
+          </div>
+        </PageLayout>
       );
     }
 

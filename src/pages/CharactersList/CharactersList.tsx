@@ -3,11 +3,9 @@ import { useCallback, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
 import { useDebounce, useLoadCharacters } from '@/hooks';
-import { ErrorBoundary, Loader, MainLogo, PageLayout } from '@/shared/components';
-import type { TFilters } from '@/shared/types';
+import { InfinityScroll, Loader, MainLogo, PageLayout } from '@/shared/components';
+import type { TCharacter, TFilters } from '@/shared/types';
 import { CharacterCard, FilterPanel } from '@/widgets';
-
-import './CharactersList.scss';
 
 export const CharactersList = () => {
   const [nameInputValue, setNameInputValue] = useState('');
@@ -17,7 +15,9 @@ export const CharactersList = () => {
     gender: '',
     status: null
   });
-  const { characters, isLoading, error } = useLoadCharacters({ filters });
+  const { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage } = useLoadCharacters({
+    filters
+  });
 
   const updateFiltersName = useCallback((value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, name: value }));
@@ -47,11 +47,21 @@ export const CharactersList = () => {
     toast.error(message);
   }, []);
 
+  const renderCharacter = useCallback((character: TCharacter) => {
+    return <CharacterCard character={character} />;
+  }, []);
+
+  const loadNextPage = useCallback(() => {
+    if (!isLoading && hasNextPage) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  }, [isLoading, hasNextPage]);
+
   useEffect(() => {
     if (error) {
       showErrorToast(error);
     }
-  }, [error]);
+  }, [error, showErrorToast]);
 
   if (isLoading) {
     return (
@@ -71,15 +81,15 @@ export const CharactersList = () => {
         handleFilterChange={handleFilterChange}
         handleNameChange={handleNameChange}
       />
-      <ErrorBoundary>
-        <ul className='charactersList'>
-          {characters.map((character) => (
-            <li className='charactersList__item' key={character.id}>
-              <CharacterCard character={character} />
-            </li>
-          ))}
-        </ul>
-      </ErrorBoundary>
+      <InfinityScroll
+        items={characters}
+        renderItem={renderCharacter}
+        getItemKey={(character: TCharacter) => character.id}
+        loadNextPage={loadNextPage}
+        hasNextPage={hasNextPage}
+        isNextPageLoading={isNextPageLoading}
+        loader={<Loader size='small' />}
+      />
       <Toaster
         position='bottom-right'
         toastOptions={{
