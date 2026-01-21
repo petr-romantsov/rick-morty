@@ -1,9 +1,8 @@
-import { type FormEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { type FormEventHandler, memo, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Link } from 'react-router';
 
-import { useEditCharacterCard } from '@/hooks';
-import { Input, STATUS_OPTIONS, Select, Status } from '@/shared/components';
+import { Input, STATUS_OPTIONS, Select, Status, type TSelectOption, type TStatus } from '@/shared/components';
 import { STATUS_LABELS } from '@/shared/constants';
 import type { TCharacter } from '@/shared/types';
 
@@ -13,25 +12,22 @@ import './CharacterCard.scss';
 
 type TCharacterCardProps = {
   character: TCharacter;
+  onUpdate: (character: TCharacter) => void;
 };
 
 const IMAGE_OBSERVER_THRESHOLD = '100px';
 
-export const CharacterCard = ({ character }: TCharacterCardProps) => {
+export const CharacterCard = memo(({ character, onUpdate }: TCharacterCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [shouldLoadImage, setShouldLoadImage] = useState(false);
   const imgRef = useRef<HTMLImageElement | null>(null);
-  const {
-    readonly,
-    setReadonly,
-    statusValue,
-    setStatusValue,
-    nameValue,
-    setNameValue,
-    locationValue,
-    setLocationValue
-  } = useEditCharacterCard({ character });
+  const [editedCharacter, setEditedCharacter] = useState(character);
+  const [readonly, setReadonly] = useState(true);
+
+  useEffect(() => {
+    setEditedCharacter(character);
+  }, [character]);
 
   useEffect(() => {
     if (!imgRef.current || shouldLoadImage) return;
@@ -61,30 +57,24 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
     setImageLoaded(false);
   };
 
-  const handleEditButtonClick = () => {
+  const handleEditButtonClick = useCallback(() => {
     setReadonly(false);
-  };
+  }, []);
 
   const handleCloseButtonClick = useCallback(() => {
-    setNameValue(character.name);
-    setLocationValue(character.location.name);
-    setStatusValue(character.status);
+    setEditedCharacter(character);
     setReadonly(true);
-  }, [character.name, character.location.name, character.status]);
+  }, [character]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-
-    character.name = nameValue;
-    character.location.name = locationValue;
-    character.status = statusValue;
-
+    onUpdate(editedCharacter);
     setReadonly(true);
   };
 
-  const handleNameChange = (value: string) => setNameValue(value);
-
-  const handleLocationChange = (value: string) => setLocationValue(value);
+  const handleInputChange = (field: keyof TCharacter, value: string | { name: string; url: string }) => {
+    setEditedCharacter((prev) => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     if (readonly) return;
@@ -102,6 +92,8 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [readonly, handleCloseButtonClick]);
 
+  const { name, gender, species, location, status, image } = editedCharacter;
+
   return (
     <form className='characterCard' onSubmit={handleSubmit}>
       <div className='characterCard__imgWrapper'>
@@ -111,8 +103,8 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
         {shouldLoadImage && !imageError ? (
           <img
             ref={imgRef}
-            src={character.image}
-            alt={`${character.name} image`}
+            src={image}
+            alt={`${name} image`}
             className='characterCard__img'
             loading='lazy'
             width={300}
@@ -121,7 +113,7 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
             onLoad={handleImageLoad}
           />
         ) : imageError ? (
-          <span className='characterCard__imgError'>Image not available :(</span>
+          <span className='characterCard__imgError'>Image is not available :(</span>
         ) : (
           <div ref={imgRef} className='characterCard__imgPlaceholder'></div>
         )}
@@ -129,24 +121,29 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
       <div className='characterCard__content'>
         {readonly ? (
           <Link className='characterCard__link' to={`/character/${character.id}`}>
-            {nameValue || character.name}
+            {name || character.name}
           </Link>
         ) : (
-          <Input value={nameValue} onChange={handleNameChange} view='underlined' readonly={readonly} />
+          <Input
+            value={name}
+            onChange={(value) => handleInputChange('name', value)}
+            view='underlined'
+            readonly={readonly}
+          />
         )}
         <div className='characterCard__property'>
           <h3 className='characterCard__propertyName'>Gender</h3>
-          <p className='characterCard__propertyValue'>{character.gender}</p>
+          <p className='characterCard__propertyValue'>{gender}</p>
         </div>
         <div className='characterCard__property'>
           <h3 className='characterCard__propertyName'>Species</h3>
-          <p className='characterCard__propertyValue'>{character.species}</p>
+          <p className='characterCard__propertyValue'>{species}</p>
         </div>
         <div className='characterCard__property'>
           <h3 className='characterCard__propertyName'>Location</h3>
           <Input
-            value={locationValue}
-            onChange={handleLocationChange}
+            value={location.name}
+            onChange={(value) => handleInputChange('location', { ...location, name: value })}
             view='underlined'
             size='small'
             readonly={readonly}
@@ -157,13 +154,13 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
           <div className='characterCard__status'>
             {readonly ? (
               <>
-                <span>{STATUS_LABELS[statusValue || character.status]}</span>
-                <Status status={statusValue || character.status} />
+                <span>{STATUS_LABELS[status || character.status]}</span>
+                <Status status={status || character.status} />
               </>
             ) : (
               <Select
-                value={statusValue}
-                onChange={setStatusValue}
+                value={status}
+                onChange={(value) => handleInputChange('status', value)}
                 options={STATUS_OPTIONS}
                 size='small'
                 placeholder='Status'
@@ -181,4 +178,4 @@ export const CharacterCard = ({ character }: TCharacterCardProps) => {
       <CardButtons readonly={readonly} onEdit={handleEditButtonClick} onClose={handleCloseButtonClick} />
     </form>
   );
-};
+});

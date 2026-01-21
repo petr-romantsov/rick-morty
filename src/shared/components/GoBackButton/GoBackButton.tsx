@@ -1,12 +1,19 @@
+import clsx from 'clsx';
+
 import { ArrowLeft } from '@/assets/icons';
 
 import './GoBackButton.scss';
 
-export const GoBackButton = () => {
+type TGoBackButtonProps = {
+  className?: string;
+  link: string;
+};
+
+export const GoBackButton = ({ link, className }: TGoBackButtonProps) => {
   return (
-    <button className='go-back-button'>
+    <a className={clsx('go-back-button', className)} href={link}>
       <ArrowLeft />
       GO BACK
-    </button>
+    </a>
   );
 };

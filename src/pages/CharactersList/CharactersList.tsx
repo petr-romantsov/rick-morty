@@ -15,9 +15,12 @@ export const CharactersList = () => {
     gender: '',
     status: null
   });
-  const { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage } = useLoadCharacters({
-    filters
-  });
+  const { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage, updateCharacter } =
+    useLoadCharacters({
+      filters
+    });
+
+  const SMALL_LOADER = <Loader size='small' />;
 
   const updateFiltersName = useCallback((value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, name: value }));
@@ -48,14 +51,16 @@ export const CharactersList = () => {
   }, []);
 
   const renderCharacter = useCallback((character: TCharacter) => {
-    return <CharacterCard character={character} />;
+    return <CharacterCard character={character} onUpdate={updateCharacter} />;
   }, []);
 
+  const getCharacterKey = useCallback((character: TCharacter) => character.id, []);
+
   const loadNextPage = useCallback(() => {
-    if (!isLoading && hasNextPage) {
+    if (!isLoading && hasNextPage && !isNextPageLoading) {
       setCurrentPage((prev) => prev + 1);
     }
-  }, [isLoading, hasNextPage]);
+  }, [isLoading, hasNextPage, isNextPageLoading]);
 
   useEffect(() => {
     if (error) {
@@ -84,11 +89,11 @@ export const CharactersList = () => {
       <InfinityScroll
         items={characters}
         renderItem={renderCharacter}
-        getItemKey={(character: TCharacter) => character.id}
+        getItemKey={getCharacterKey}
         loadNextPage={loadNextPage}
         hasNextPage={hasNextPage}
         isNextPageLoading={isNextPageLoading}
-        loader={<Loader size='small' />}
+        loader={SMALL_LOADER}
       />
       <Toaster
         position='bottom-right'

@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router';
 
-import { Character, CharactersList } from '@/pages';
+import { CharacterInfo, CharactersList } from '@/pages';
 import { PageLayout } from '@/shared';
 
 export const AppRoutes = () => {
@@ -8,7 +8,7 @@ export const AppRoutes = () => {
     <Routes>
       <Route path='/' element={<PageLayout />} />
       <Route index element={<CharactersList />} />
-      <Route path='character' element={<Character />} />
+      <Route path='character/:id' element={<CharacterInfo />} />
     </Routes>
   );
 };

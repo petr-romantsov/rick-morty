@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 
 import './InfinityScroll.scss';
 
@@ -15,7 +15,7 @@ export type TInfinityScrollProps<T> = {
   threshold?: number;
 };
 
-export const InfinityScroll = <T,>({
+const InfinityScrollInner = <T,>({
   items,
   renderItem,
   loadNextPage,
@@ -66,3 +66,5 @@ export const InfinityScroll = <T,>({
     </div>
   );
 };
+
+export const InfinityScroll = memo(InfinityScrollInner) as typeof InfinityScrollInner;

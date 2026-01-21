@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { getCharacters } from '@/api/getCharacters';
+import { isRequestAborted } from '@/shared/helpers';
 import type { TCharacter, TFilters } from '@/shared/types';
 
 const INITIAL_PAGE = 1;
@@ -9,25 +10,19 @@ type TUseLoadCharactersProps = {
   filters: TFilters;
 };
 
-type TStateRef = {
-  filters: TFilters;
-  currentPage: number;
-  isLoading: boolean;
-  hasNextPage: boolean;
-  isNextPageLoading: boolean;
-};
-
-const isRequestAborted = (error: unknown) =>
-  error instanceof Error && (error.message === 'Request aborted' || error.name === 'AbortError');
-
 export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
   const [characters, setCharacters] = useState<TCharacter[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(INITIAL_PAGE);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [isNextPageLoading, setIsNextPageLoading] = useState<boolean>(false);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    setCurrentPage(INITIAL_PAGE);
+    setCharacters([]);
+  }, [filters]);
 
   const loadCharacters = useCallback(async () => {
     if (abortControllerRef.current) abortControllerRef.current.abort();
@@ -49,7 +44,7 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
       if (currentPage === INITIAL_PAGE) {
         setCharacters(data.results);
       } else {
-        setCharacters([...characters, ...data.results]);
+        setCharacters((prevCharacters) => [...prevCharacters, ...data.results]);
       }
 
       setHasNextPage(!!data.info.next);
@@ -72,5 +67,11 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
     };
   }, [loadCharacters]);
 
-  return { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage };
+  const updateCharacter = useCallback((character: TCharacter) => {
+    setCharacters((prev) =>
+      prev.map((prevCharacter) => (prevCharacter.id === character.id ? character : prevCharacter))
+    );
+  }, []);
+
+  return { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage, updateCharacter };
 };
