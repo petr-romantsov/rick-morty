@@ -1,5 +1,10 @@
 import type { TStatus } from '../components';
 
+export type TLocationInfo = {
+  name: string;
+  url: string;
+};
+
 export type TCharacter = {
   id: number;
   name: string;
@@ -7,14 +12,8 @@ export type TCharacter = {
   species: string;
   type: string;
   gender: string;
-  origin: {
-    name: string;
-    url: string;
-  };
-  location: {
-    name: string;
-    url: string;
-  };
+  origin: TLocationInfo;
+  location: TLocationInfo;
   image: string;
   episode: string[];
   url: string;

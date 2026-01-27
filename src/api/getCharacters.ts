@@ -1,8 +1,7 @@
 import axios from 'axios';
 
+import { API_URL } from '@/shared/constants';
 import { type TCharacter, type TFilters } from '@/shared/types';
-
-const API_URL = 'https://rickandmortyapi.com/api/character/';
 
 type TGetCharactersParams = {
   filters: TFilters;
@@ -28,21 +27,6 @@ export const getCharacters = async ({
   const { name, species, gender, status } = filters;
   const params = { name, species, gender, status, page };
 
-  try {
-    const response = await axios.get(API_URL, { params, signal });
-    return response.data;
-  } catch (error) {
-    if (signal?.aborted || (axios.isAxiosError(error) && error.code === 'ERR_CANCELED')) {
-      throw new Error('Request aborted');
-    }
-
-    if (axios.isAxiosError(error)) {
-      throw new Error(
-        error.response?.status
-          ? `Failed to load characters list: (${error.response.status})`
-          : 'Network error while loading characters'
-      );
-    }
-    throw new Error('Unknown error while loading characters');
-  }
+  const response = await axios.get(API_URL, { params, signal });
+  return response.data;
 };

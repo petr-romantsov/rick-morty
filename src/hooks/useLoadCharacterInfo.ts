@@ -34,7 +34,7 @@ export const useLoadCharacterInfo = ({ id }: TUseLoadCharacterInfoProps) => {
       if (controller.signal.aborted) return;
       setIsLoading(false);
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     loadCharacterInfo();

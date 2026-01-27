@@ -1,8 +1,8 @@
-import { memo, useEffect, useRef } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 
 import './InfinityScroll.scss';
 
-const SENTINEL_OBSERVER_THRESHOLD = '400px';
+const SENTINEL_OBSERVER_THRESHOLD = '100px';
 
 export type TInfinityScrollProps<T> = {
   items: T[];
@@ -26,16 +26,19 @@ const InfinityScrollInner = <T,>({
 }: TInfinityScrollProps<T>) => {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!sentinelRef.current) return;
-
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
 
       if (entry.isIntersecting && hasNextPage && !isNextPageLoading) {
         loadNextPage();
       }
-    };
+    },
+    [hasNextPage, isNextPageLoading, loadNextPage]
+  );
+
+  useEffect(() => {
+    if (!sentinelRef.current) return;
 
     const observer = new IntersectionObserver(handleIntersection, {
       root: null,
@@ -50,7 +53,7 @@ const InfinityScrollInner = <T,>({
         observer.disconnect();
       }
     };
-  }, [hasNextPage, isNextPageLoading, loadNextPage]);
+  }, [handleIntersection]);
 
   return (
     <div className='infinityScroll'>

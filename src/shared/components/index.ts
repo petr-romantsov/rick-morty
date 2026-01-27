@@ -1,6 +1,5 @@
 export * from './AppRoutes/AppRoutes';
 export * from './Footer/Footer';
-export * from './GoBackButton/GoBackButton';
 export * from './Header/Header';
 export * from './Loader/Loader';
 export * from './MainLogo/MainLogo';

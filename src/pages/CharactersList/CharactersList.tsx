@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import toast, { Toaster } from 'react-hot-toast';
-
 import { useDebounce, useLoadCharacters } from '@/hooks';
-import { InfinityScroll, Loader, MainLogo, PageLayout } from '@/shared/components';
+import { InfinityScroll, Loader, MainLogo } from '@/shared/components';
+import { showErrorToast } from '@/shared/helpers';
 import type { TCharacter, TFilters } from '@/shared/types';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
@@ -20,7 +19,7 @@ export const CharactersList = () => {
       filters
     });
 
-  const SMALL_LOADER = <Loader size='small' />;
+  const SmallLoader = <Loader size='small' />;
 
   const updateFiltersName = useCallback((value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, name: value }));
@@ -46,10 +45,6 @@ export const CharactersList = () => {
     }));
   }, []);
 
-  const showErrorToast = useCallback((message: string): void => {
-    toast.error(message);
-  }, []);
-
   const renderCharacter = useCallback((character: TCharacter) => {
     return <CharacterCard character={character} onUpdate={updateCharacter} />;
   }, []);
@@ -66,19 +61,19 @@ export const CharactersList = () => {
     if (error) {
       showErrorToast(error);
     }
-  }, [error, showErrorToast]);
+  }, [error]);
 
   if (isLoading) {
     return (
-      <PageLayout>
+      <>
         <MainLogo />
         <Loader size='large' text='Loading characters...' />
-      </PageLayout>
+      </>
     );
   }
 
   return (
-    <PageLayout>
+    <>
       <MainLogo />
       <FilterPanel
         nameValue={nameInputValue}
@@ -93,19 +88,8 @@ export const CharactersList = () => {
         loadNextPage={loadNextPage}
         hasNextPage={hasNextPage}
         isNextPageLoading={isNextPageLoading}
-        loader={SMALL_LOADER}
+        loader={SmallLoader}
       />
-      <Toaster
-        position='bottom-right'
-        toastOptions={{
-          style: {
-            backgroundColor: '#fff5f3',
-            border: '1px solid #f4b0a1',
-            borderRadius: '12px',
-            background: '#fff5f3'
-          }
-        }}
-      />
-    </PageLayout>
+    </>
   );
 };

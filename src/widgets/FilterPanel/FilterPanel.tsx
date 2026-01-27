@@ -12,6 +12,12 @@ type TFilterPanelProps = {
   handleNameChange: (value: string) => void;
 };
 
+const selects = [
+  { key: 'species', options: SPECIES_OPTIONS, placeholder: 'Species' },
+  { key: 'gender', options: GENDER_OPTIONS, placeholder: 'Gender' },
+  { key: 'status', options: STATUS_OPTIONS, placeholder: 'Status' }
+] as const;
+
 export const FilterPanel = memo(
   ({ nameValue, filters, handleFilterChange, handleNameChange }: TFilterPanelProps) => {
     const onSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
@@ -24,27 +30,16 @@ export const FilterPanel = memo(
           placeholder='Filter by name...'
           onChange={handleNameChange}
         />
-        <Select
-          value={filters.species}
-          options={SPECIES_OPTIONS}
-          placeholder='Species'
-          size='medium'
-          onChange={(value) => handleFilterChange('species', value)}
-        />
-        <Select
-          value={filters.gender}
-          options={GENDER_OPTIONS}
-          placeholder='Gender'
-          size='medium'
-          onChange={(value) => handleFilterChange('gender', value)}
-        />
-        <Select
-          value={filters.status}
-          options={STATUS_OPTIONS}
-          placeholder='Status'
-          size='medium'
-          onChange={(value) => handleFilterChange('status', value)}
-        />
+        {selects.map(({ key, options, placeholder }) => (
+          <Select
+            key={key}
+            value={filters[key]}
+            options={options}
+            placeholder={placeholder}
+            size='medium'
+            onChange={(value) => handleFilterChange(key, value)}
+          />
+        ))}
       </form>
     );
   }
