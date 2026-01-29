@@ -28,8 +28,9 @@ a {
 }
 
 img {
+  width: 100%;
   height: 100%;
-  max-width: 100%;
+  object-fit: cover;
 }
 
 p {
@@ -40,10 +41,11 @@ p {
   --roboto-font-family: 'Roboto', sans-serif;
   --color-bg-white: #fff;
   --color-text-black: #000000de;
-  --color-text-gray: #0009;
+  --color-text-gray: #6e798c;
   --color-status-green: #12b800;
   --color-status-red: #df0000;
   --color-status-orange: #f90;
   --color-shadow: #cccbcb;
   --color-border: #00000080;
+  --color-border-gray: #f2f2f7;
 }

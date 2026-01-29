@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import toast, { Toaster } from 'react-hot-toast';
-
 import { useDebounce, useLoadCharacters } from '@/hooks';
-import { InfinityScroll, Loader, MainLogo, PageLayout } from '@/shared/components';
+import { InfinityScroll, Loader, MainLogo } from '@/shared/components';
+import { showErrorToast } from '@/shared/helpers';
 import type { TCharacter, TFilters } from '@/shared/types';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
@@ -15,9 +14,12 @@ export const CharactersList = () => {
     gender: '',
     status: null
   });
-  const { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage } = useLoadCharacters({
-    filters
-  });
+  const { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage, updateCharacter } =
+    useLoadCharacters({
+      filters
+    });
+
+  const SmallLoader = <Loader size='small' />;
 
   const updateFiltersName = useCallback((value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, name: value }));
@@ -43,37 +45,35 @@ export const CharactersList = () => {
     }));
   }, []);
 
-  const showErrorToast = useCallback((message: string): void => {
-    toast.error(message);
+  const renderCharacter = useCallback((character: TCharacter) => {
+    return <CharacterCard character={character} onUpdate={updateCharacter} />;
   }, []);
 
-  const renderCharacter = useCallback((character: TCharacter) => {
-    return <CharacterCard character={character} />;
-  }, []);
+  const getCharacterKey = useCallback((character: TCharacter) => character.id, []);
 
   const loadNextPage = useCallback(() => {
-    if (!isLoading && hasNextPage) {
+    if (!isLoading && hasNextPage && !isNextPageLoading) {
       setCurrentPage((prev) => prev + 1);
     }
-  }, [isLoading, hasNextPage]);
+  }, [isLoading, hasNextPage, isNextPageLoading]);
 
   useEffect(() => {
     if (error) {
       showErrorToast(error);
     }
-  }, [error, showErrorToast]);
+  }, [error]);
 
   if (isLoading) {
     return (
-      <PageLayout>
+      <>
         <MainLogo />
         <Loader size='large' text='Loading characters...' />
-      </PageLayout>
+      </>
     );
   }
 
   return (
-    <PageLayout>
+    <>
       <MainLogo />
       <FilterPanel
         nameValue={nameInputValue}
@@ -84,23 +84,12 @@ export const CharactersList = () => {
       <InfinityScroll
         items={characters}
         renderItem={renderCharacter}
-        getItemKey={(character: TCharacter) => character.id}
+        getItemKey={getCharacterKey}
         loadNextPage={loadNextPage}
         hasNextPage={hasNextPage}
         isNextPageLoading={isNextPageLoading}
-        loader={<Loader size='small' />}
+        loader={SmallLoader}
       />
-      <Toaster
-        position='bottom-right'
-        toastOptions={{
-          style: {
-            backgroundColor: '#fff5f3',
-            border: '1px solid #f4b0a1',
-            borderRadius: '12px',
-            background: '#fff5f3'
-          }
-        }}
-      />
-    </PageLayout>
+    </>
   );
 };

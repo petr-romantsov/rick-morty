@@ -7,7 +7,6 @@ export const SPECIES_OPTIONS: TSelectOption[] = [
   { value: 'animal', label: 'Animal' },
   { value: 'robot', label: 'Robot' },
   { value: 'cronenberg', label: 'Cronenberg' },
-  { value: 'mythology', label: 'Mythology' },
   { value: 'disease', label: 'Disease' },
   { value: 'unknown', label: 'Unknown' }
 ];
