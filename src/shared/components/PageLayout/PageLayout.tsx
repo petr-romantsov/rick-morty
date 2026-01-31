@@ -1,8 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router';
 
-import { Footer } from '@/shared';
-import { Header } from '@/shared';
+import { Footer, Header } from '@/shared';
 
 export const PageLayout = () => {
   return (

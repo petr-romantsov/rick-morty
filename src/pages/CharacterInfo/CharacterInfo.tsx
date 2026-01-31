@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react';
 
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 
-import { ArrowLeft } from '@/assets/icons';
+import { ArrowLeft } from '@/assets';
 import { useLoadCharacterInfo } from '@/hooks';
 import { Loader } from '@/shared/components';
 import { showErrorToast } from '@/shared/helpers';
@@ -50,7 +50,15 @@ const getCharacterInfoFields = (character: TCharacter | null): TCharacterInfoFie
 
 export const CharacterInfo = () => {
   const { id } = useParams();
-  const { character, isLoading, error } = useLoadCharacterInfo({ id: Number(id) });
+  const { character, isLoading, error, isNotFound } = useLoadCharacterInfo({ id: Number(id) });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isNotFound) {
+      navigate('/404', { replace: true });
+    }
+  }, [isNotFound, navigate]);
 
   useEffect(() => {
     if (error) {

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import clsx from 'clsx';
 
-import { ChevronDown } from '@/assets/icons';
+import { ChevronDown } from '@/assets';
 
 import './Select.scss';
 
