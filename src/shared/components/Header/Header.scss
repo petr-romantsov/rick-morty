@@ -1,0 +1,9 @@
+.header {
+  padding: 5px 198px;
+  box-shadow: 0 3px 5px var(--color-shadow);
+
+  &__logo {
+    width: 46px;
+    height: 49px;
+  }
+}

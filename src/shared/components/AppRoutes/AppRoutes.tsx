@@ -1,0 +1,15 @@
+import { Route, Routes } from 'react-router';
+
+import { CharacterInfo, CharactersList } from '@/pages';
+import { PageLayout } from '@/shared';
+
+export const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path='/' element={<PageLayout />}>
+        <Route index element={<CharactersList />} />
+        <Route path='character/:id' element={<CharacterInfo />} />
+      </Route>
+    </Routes>
+  );
+};

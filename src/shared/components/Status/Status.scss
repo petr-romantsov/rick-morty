@@ -1,0 +1,20 @@
+.status {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: transparent;
+  flex-shrink: 0;
+
+  &_alive {
+    background-color: var(--color-status-green);
+  }
+
+  &_dead {
+    background-color: var(--color-status-red);
+  }
+
+  &_unknown {
+    background-color: var(--color-status-orange);
+  }
+}

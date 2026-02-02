@@ -1,0 +1,93 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "order/properties-order": [
+      [
+        {
+          "groupName": "positioning",
+          "properties": ["position", "top", "right", "bottom", "left", "z-index"]
+        },
+        {
+          "groupName": "display",
+          "properties": [
+            "display",
+            "flex",
+            "flex-direction",
+            "flex-wrap",
+            "align-items",
+            "align-content",
+            "justify-content",
+            "gap"
+          ]
+        },
+        {
+          "groupName": "box-model",
+          "properties": [
+            "width",
+            "height",
+            "max-width",
+            "max-height",
+            "min-width",
+            "min-height",
+            "margin",
+            "margin-top",
+            "margin-right",
+            "margin-bottom",
+            "margin-left",
+            "padding",
+            "padding-top",
+            "padding-right",
+            "padding-bottom",
+            "padding-left",
+            "box-sizing",
+            "border",
+            "border-radius",
+            "box-shadow"
+          ]
+        },
+        {
+          "groupName": "typography",
+          "properties": [
+            "font",
+            "font-family",
+            "font-size",
+            "font-weight",
+            "line-height",
+            "letter-spacing",
+            "color",
+            "text-align",
+            "text-decoration",
+            "text-transform"
+          ]
+        },
+        {
+          "groupName": "visual",
+          "properties": [
+            "background",
+            "background-color",
+            "background-image",
+            "background-position",
+            "background-repeat",
+            "background-size",
+            "opacity",
+            "visibility"
+          ]
+        },
+        {
+          "groupName": "misc",
+          "properties": ["content", "cursor", "transform", "transform-origin", "transition", "animation"]
+        }
+      ],
+      {
+        "severity": "warning"
+      }
+    ],
+    "order/properties-alphabetical-order": null,
+    "scss/at-rule-no-unknown": null,
+    "scss/at-import-partial-extension": null,
+    "no-empty-source": null,
+    "selector-class-pattern": null
+  },
+  "ignoreFiles": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "node_modules/**"]
+}
