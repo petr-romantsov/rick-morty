@@ -1,9 +1,9 @@
-import { createBrowserRouter } from 'react-router';
+import { createHashRouter } from 'react-router';
 
 import { CharacterInfo, CharactersList, NotFoundPage } from '@/pages';
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <PageLayout />,
