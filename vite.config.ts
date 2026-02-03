@@ -3,6 +3,8 @@ import { defineConfig } from 'vite';
 import stylelint from 'vite-plugin-stylelint';
 import svgr from 'vite-plugin-svgr';
 
+const isPreview = process.env.PREVIEW === 'true';
+
 // https://vite.dev/config/
 export default defineConfig({
   base: '/rick-morty/',
