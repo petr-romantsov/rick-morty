@@ -7,6 +7,7 @@ export const router = createHashRouter([
   {
     path: '/',
     element: <PageLayout />,
+    errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
@@ -15,10 +16,6 @@ export const router = createHashRouter([
       {
         path: 'character/:id',
         element: <CharacterInfo />
-      },
-      {
-        path: '404',
-        element: <NotFoundPage />
       },
       {
         path: '*',

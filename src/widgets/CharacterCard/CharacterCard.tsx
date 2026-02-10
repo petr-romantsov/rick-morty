@@ -2,8 +2,9 @@ import { type FormEventHandler, memo, useCallback, useEffect, useRef, useState }
 
 import { Link } from 'react-router';
 
-import { Input, STATUS_OPTIONS, Select, Status, type TSelectOption, type TStatus } from '@/shared/components';
+import { Input, STATUS_OPTIONS, Select, Status } from '@/shared/components';
 import { STATUS_LABELS } from '@/shared/constants';
+import { ROUTES } from '@/shared/constants';
 import type { TCharacter } from '@/shared/types';
 
 import { CardButtons } from './components/CardButtons/CardButtons';
@@ -120,7 +121,7 @@ export const CharacterCard = memo(({ character, onUpdate }: TCharacterCardProps)
       </div>
       <div className='characterCard__content'>
         {readonly ? (
-          <Link className='characterCard__link' to={`/character/${character.id}`}>
+          <Link className='characterCard__link' to={ROUTES.CHARACTER_PAGE(character.id.toString())}>
             {name || character.name}
           </Link>
         ) : (
@@ -154,7 +155,7 @@ export const CharacterCard = memo(({ character, onUpdate }: TCharacterCardProps)
           <div className='characterCard__status'>
             {readonly ? (
               <>
-                <span>{STATUS_LABELS[status || character.status]}</span>
+                <span>{STATUS_LABELS[status] || character.status}</span>
                 <Status status={status || character.status} />
               </>
             ) : (

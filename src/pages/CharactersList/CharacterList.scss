@@ -1,0 +1,17 @@
+.characterList {
+  display: grid;
+  gap: 28px;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 150px;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(2, 1fr);
+
+  &__notFoundMessage {
+    margin: auto;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--color-text-black);
+  }
+}

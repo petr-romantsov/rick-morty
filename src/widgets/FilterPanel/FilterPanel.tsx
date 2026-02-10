@@ -1,5 +1,6 @@
 import { type FormEventHandler, memo } from 'react';
 
+import { SearchIcon } from '@/assets';
 import { GENDER_OPTIONS, Input, SPECIES_OPTIONS, STATUS_OPTIONS, Select } from '@/shared/components';
 import type { TFilters } from '@/shared/types';
 
@@ -29,6 +30,7 @@ export const FilterPanel = memo(
           value={nameValue}
           placeholder='Filter by name...'
           onChange={handleNameChange}
+          icon={<SearchIcon />}
         />
         {selects.map(({ key, options, placeholder }) => (
           <Select

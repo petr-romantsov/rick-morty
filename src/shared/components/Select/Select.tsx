@@ -39,7 +39,9 @@ export const Select = <T,>({
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = options.find((opt) => opt.value === value);
+  const normalizedValue = typeof value === 'string' ? value?.toLowerCase() : value;
+
+  const selectedOption = options.find((opt) => opt.value === normalizedValue);
 
   const handleOptionClick = useCallback(
     (option: TSelectOption<T>) => {

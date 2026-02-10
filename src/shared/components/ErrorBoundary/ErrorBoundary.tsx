@@ -17,7 +17,7 @@ export class ErrorBoundary extends Component<TErrorBoundaryComponentProps, TErro
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: Error): TErrorBoundaryComponentState {
+  static getDerivedStateFromError(_error: Error): TErrorBoundaryComponentState {
     return { hasError: true };
   }
 

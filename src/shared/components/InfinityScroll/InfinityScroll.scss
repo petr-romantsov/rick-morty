@@ -1,18 +1,4 @@
 .infinityScroll {
-  $p: &;
-
-  &__list {
-    display: grid;
-    gap: 28px;
-    width: 100%;
-    margin: 0;
-    margin-bottom: 150px;
-    padding: 0;
-    list-style: none;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-
   &__sentinel {
     height: 1px;
     background-color: transparent;

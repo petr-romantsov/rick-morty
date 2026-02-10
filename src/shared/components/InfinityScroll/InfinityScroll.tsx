@@ -4,26 +4,22 @@ import './InfinityScroll.scss';
 
 const SENTINEL_OBSERVER_THRESHOLD = '100px';
 
-export type TInfinityScrollProps<T> = {
-  items: T[];
-  renderItem: (item: T) => React.ReactNode;
+export type TInfinityScrollProps = {
+  children: React.ReactNode;
   loadNextPage: () => void;
   isNextPageLoading: boolean;
   hasNextPage: boolean;
   loader?: React.ReactNode;
-  getItemKey: (item: T) => string | number;
   threshold?: number;
 };
 
-const InfinityScrollInner = <T,>({
-  items,
-  renderItem,
+const InfinityScrollInner = ({
+  children,
   loadNextPage,
   isNextPageLoading,
   hasNextPage,
-  loader,
-  getItemKey
-}: TInfinityScrollProps<T>) => {
+  loader
+}: TInfinityScrollProps) => {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const handleIntersection = useCallback(
@@ -57,14 +53,8 @@ const InfinityScrollInner = <T,>({
 
   return (
     <div className='infinityScroll'>
-      <ul className='infinityScroll__list'>
-        {items.map((item) => (
-          <li className='infinityScroll__item' key={getItemKey(item)}>
-            {renderItem(item)}
-          </li>
-        ))}
-      </ul>
-      {loader && isNextPageLoading && <div className='infinityScroll__loader'>{loader}</div>}
+      {children}
+      {loader && isNextPageLoading && <div>{loader}</div>}
       <div className='infinityScroll__sentinel' ref={sentinelRef}></div>
     </div>
   );

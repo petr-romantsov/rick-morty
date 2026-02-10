@@ -25,7 +25,10 @@ export const getCharacters = async ({
   page
 }: TGetCharactersParams): Promise<TGetCharactersResponse> => {
   const { name, species, gender, status } = filters;
-  const params = { name, species, gender, status, page };
+
+  const params = Object.fromEntries(
+    Object.entries({ name, species, gender, status, page }).filter(([_, value]) => !!value)
+  );
 
   const response = await axios.get(API_URL, { params, signal });
   return response.data;
