@@ -1,4 +1,3 @@
-export * from './AppRoutes/AppRoutes';
 export * from './Footer/Footer';
 export * from './Header/Header';
 export * from './Loader/Loader';

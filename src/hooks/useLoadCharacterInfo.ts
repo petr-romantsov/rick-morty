@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { getCharacterInfo } from '@/api/getCharacterInfo';
-import { isRequestAborted } from '@/shared/helpers';
+import { getErrorMessage, isRequestAborted } from '@/shared/helpers';
 import { type TCharacter } from '@/shared/types';
 
 type TUseLoadCharacterInfoProps = {
@@ -21,14 +21,15 @@ export const useLoadCharacterInfo = ({ id }: TUseLoadCharacterInfoProps) => {
     abortControllerRef.current = controller;
 
     setIsLoading(true);
+    setError(null);
 
     try {
       const data = await getCharacterInfo({ id, signal: controller.signal });
-      if (controller.signal.aborted) return;
       setCharacter(data);
     } catch (error) {
       if (isRequestAborted(error)) return;
-      const message = error instanceof Error ? error.message : String(error);
+
+      const message = getErrorMessage(error);
       setError(message);
     } finally {
       if (controller.signal.aborted) return;

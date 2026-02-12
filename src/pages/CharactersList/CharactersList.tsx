@@ -3,8 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDebounce, useLoadCharacters } from '@/hooks';
 import { InfinityScroll, Loader, MainLogo } from '@/shared/components';
 import { showErrorToast } from '@/shared/helpers';
-import type { TCharacter, TFilters } from '@/shared/types';
+import type { TFilters } from '@/shared/types';
 import { CharacterCard, FilterPanel } from '@/widgets';
+
+import './CharacterList.scss';
 
 export const CharactersList = () => {
   const [nameInputValue, setNameInputValue] = useState('');
@@ -14,10 +16,17 @@ export const CharactersList = () => {
     gender: '',
     status: null
   });
-  const { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage, updateCharacter } =
-    useLoadCharacters({
-      filters
-    });
+  const {
+    characters,
+    isLoading,
+    error,
+    hasNextPage,
+    isNextPageLoading,
+    setCurrentPage,
+    updateCharacter
+  } = useLoadCharacters({
+    filters
+  });
 
   const SmallLoader = <Loader size='small' />;
 
@@ -45,12 +54,6 @@ export const CharactersList = () => {
     }));
   }, []);
 
-  const renderCharacter = useCallback((character: TCharacter) => {
-    return <CharacterCard character={character} onUpdate={updateCharacter} />;
-  }, []);
-
-  const getCharacterKey = useCallback((character: TCharacter) => character.id, []);
-
   const loadNextPage = useCallback(() => {
     if (!isLoading && hasNextPage && !isNextPageLoading) {
       setCurrentPage((prev) => prev + 1);
@@ -58,19 +61,41 @@ export const CharactersList = () => {
   }, [isLoading, hasNextPage, isNextPageLoading]);
 
   useEffect(() => {
-    if (error) {
+    if (error && error !== '404') {
       showErrorToast(error);
     }
   }, [error]);
 
-  if (isLoading) {
+  const renderPageContent = () => {
+    if (isLoading) {
+      return <Loader size='large' text='Loading characters...' />;
+    }
+
+    if (error === '404') {
+      return (
+        <div className='characterList__notFoundMessage'>
+          No characters with these parameters were found
+        </div>
+      );
+    }
+
     return (
-      <>
-        <MainLogo />
-        <Loader size='large' text='Loading characters...' />
-      </>
+      <InfinityScroll
+        loadNextPage={loadNextPage}
+        hasNextPage={hasNextPage}
+        isNextPageLoading={isNextPageLoading}
+        loader={SmallLoader}
+      >
+        <ul className='characterList'>
+          {characters.map((character) => (
+            <li key={character.id}>
+              <CharacterCard character={character} onUpdate={updateCharacter} />
+            </li>
+          ))}
+        </ul>
+      </InfinityScroll>
     );
-  }
+  };
 
   return (
     <>
@@ -81,15 +106,7 @@ export const CharactersList = () => {
         handleFilterChange={handleFilterChange}
         handleNameChange={handleNameChange}
       />
-      <InfinityScroll
-        items={characters}
-        renderItem={renderCharacter}
-        getItemKey={getCharacterKey}
-        loadNextPage={loadNextPage}
-        hasNextPage={hasNextPage}
-        isNextPageLoading={isNextPageLoading}
-        loader={SmallLoader}
-      />
+      {renderPageContent()}
     </>
   );
 };

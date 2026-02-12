@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { getCharacters } from '@/api/getCharacters';
-import { isRequestAborted } from '@/shared/helpers';
+import { getErrorMessage, isRequestAborted } from '@/shared/helpers';
 import type { TCharacter, TFilters } from '@/shared/types';
 
 const INITIAL_PAGE = 1;
@@ -22,6 +22,7 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
   useEffect(() => {
     setCurrentPage(INITIAL_PAGE);
     setCharacters([]);
+    setError(null);
   }, [filters]);
 
   const loadCharacters = useCallback(async () => {
@@ -39,8 +40,6 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
     try {
       const data = await getCharacters({ filters, signal: controller.signal, page: currentPage });
 
-      if (controller.signal.aborted) return;
-
       if (currentPage === INITIAL_PAGE) {
         setCharacters(data.results);
       } else {
@@ -50,7 +49,8 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
       setHasNextPage(!!data.info.next);
     } catch (error) {
       if (isRequestAborted(error)) return;
-      const message = error instanceof Error ? error.message : String(error);
+      setHasNextPage(false);
+      const message = getErrorMessage(error);
       setError(message);
     } finally {
       if (controller.signal.aborted) return;

@@ -1,4 +1,4 @@
-import { CheckIcon, CloseIcon, EditIcon } from '@/assets/icons';
+import { CheckIcon, CloseIcon, EditIcon } from '@/assets';
 
 import './CardButtons.scss';
 

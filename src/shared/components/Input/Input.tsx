@@ -2,6 +2,8 @@ import type { ChangeEvent, ReactNode } from 'react';
 
 import clsx from 'clsx';
 
+import { CloseIcon } from '@/assets';
+
 import './Input.scss';
 
 type TInputProps = {
@@ -27,6 +29,10 @@ export const Input = ({
     onChange?.(e.target.value);
   };
 
+  const handleClear = () => {
+    onChange?.('');
+  };
+
   return (
     <div
       className={clsx('customInput', {
@@ -37,7 +43,7 @@ export const Input = ({
         customInput_readonly: readonly
       })}
     >
-      {icon && <span className='customInput__icon'>{icon}</span>}
+      {icon && <i className='customInput__icon'>{icon}</i>}
       <input
         type='text'
         className='customInput__input'
@@ -45,6 +51,11 @@ export const Input = ({
         onChange={onChangeHandler}
         placeholder={placeholder}
       />
+      {value !== '' && (
+        <button className='customInput__clearBtn' onClick={handleClear} type='button'>
+          {<CloseIcon />}
+        </button>
+      )}
     </div>
   );
 };

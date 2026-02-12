@@ -1,5 +1,6 @@
 .cardButtons {
   display: flex;
+  flex-direction: column;
 
   &__btn {
     display: flex;

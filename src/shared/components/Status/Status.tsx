@@ -9,12 +9,14 @@ type TStatusProps = {
 };
 
 export const Status = ({ status = 'unknown' }: TStatusProps) => {
+  const statusValue = status?.toLowerCase();
+
   return (
     <span
       className={classnames('status', {
-        status_alive: status === 'alive',
-        status_dead: status === 'dead',
-        status_unknown: status === 'unknown'
+        status_alive: statusValue === 'alive',
+        status_dead: statusValue === 'dead',
+        status_unknown: statusValue === 'unknown'
       })}
     ></span>
   );

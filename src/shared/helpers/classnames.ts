@@ -13,8 +13,8 @@ export function classnames(...args: classnamesArgs[]): string {
 
       if (typeof arg === 'object' && arg !== null) {
         return Object.entries(arg)
-          .filter(([key, value]) => !!value)
-          .map(([key, value]) => key);
+          .filter(([_key, value]) => !!value)
+          .map(([key, _value]) => key);
       }
       return [];
     })
