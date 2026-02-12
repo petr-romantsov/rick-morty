@@ -3,7 +3,6 @@ import { defineConfig } from 'vite';
 import stylelint from 'vite-plugin-stylelint';
 import svgr from 'vite-plugin-svgr';
 
-// https://vite.dev/config/
 export default defineConfig({
   base: '/rick-morty/',
   plugins: [

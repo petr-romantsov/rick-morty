@@ -16,10 +16,17 @@ export const CharactersList = () => {
     gender: '',
     status: null
   });
-  const { characters, isLoading, error, hasNextPage, isNextPageLoading, setCurrentPage, updateCharacter } =
-    useLoadCharacters({
-      filters
-    });
+  const {
+    characters,
+    isLoading,
+    error,
+    hasNextPage,
+    isNextPageLoading,
+    setCurrentPage,
+    updateCharacter
+  } = useLoadCharacters({
+    filters
+  });
 
   const SmallLoader = <Loader size='small' />;
 
@@ -61,16 +68,14 @@ export const CharactersList = () => {
 
   const renderPageContent = () => {
     if (isLoading) {
-      return (
-        <>
-          <Loader size='large' text='Loading characters...' />
-        </>
-      );
+      return <Loader size='large' text='Loading characters...' />;
     }
 
     if (error === '404') {
       return (
-        <div className='characterList__notFoundMessage'>No characters with these parameters were found</div>
+        <div className='characterList__notFoundMessage'>
+          No characters with these parameters were found
+        </div>
       );
     }
 
