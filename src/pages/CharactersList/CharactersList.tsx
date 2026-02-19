@@ -2,13 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useDebounce, useLoadCharacters } from '@/hooks';
 import { InfinityScroll, Loader, MainLogo } from '@/shared/components';
+import { CharacterCardSkeleton } from '@/shared/components';
 import { showErrorToast } from '@/shared/helpers';
 import type { TFilters } from '@/shared/types';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
 import './CharacterList.scss';
 
-export const CharactersList = () => {
+const CharactersList = () => {
   const [nameInputValue, setNameInputValue] = useState('');
   const [filters, setFilters] = useState<TFilters>({
     name: '',
@@ -60,6 +61,7 @@ export const CharactersList = () => {
     }
   }, [isLoading, hasNextPage, isNextPageLoading]);
 
+  // показ тоста об ошибке
   useEffect(() => {
     if (error && error !== '404') {
       showErrorToast(error);
@@ -67,10 +69,6 @@ export const CharactersList = () => {
   }, [error]);
 
   const renderPageContent = () => {
-    if (isLoading) {
-      return <Loader size='large' text='Loading characters...' />;
-    }
-
     if (error === '404') {
       return (
         <div className='characterList__notFoundMessage'>
@@ -81,17 +79,23 @@ export const CharactersList = () => {
 
     return (
       <InfinityScroll
-        loadNextPage={loadNextPage}
+        loader={SmallLoader}
         hasNextPage={hasNextPage}
         isNextPageLoading={isNextPageLoading}
-        loader={SmallLoader}
+        loadNextPage={loadNextPage}
       >
         <ul className='characterList'>
-          {characters.map((character) => (
-            <li key={character.id}>
-              <CharacterCard character={character} onUpdate={updateCharacter} />
-            </li>
-          ))}
+          {isLoading && characters.length === 0
+            ? Array.from({ length: 10 }).map((_, index) => (
+                <li key={index}>
+                  <CharacterCardSkeleton />
+                </li>
+              ))
+            : characters.map((character) => (
+                <li key={character.id}>
+                  <CharacterCard character={character} onUpdate={updateCharacter} />
+                </li>
+              ))}
         </ul>
       </InfinityScroll>
     );
@@ -110,3 +114,5 @@ export const CharactersList = () => {
     </>
   );
 };
+
+export default CharactersList;

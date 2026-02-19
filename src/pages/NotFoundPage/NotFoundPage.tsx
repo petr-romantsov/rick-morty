@@ -4,7 +4,7 @@ import { Error404Img } from '@/assets';
 
 import './NotFoundPage.scss';
 
-export const NotFoundPage = () => {
+const NotFoundPage = () => {
   return (
     <section className='error-404'>
       <img src={Error404Img} alt='Error 404' className='error-404__img' />
@@ -15,3 +15,5 @@ export const NotFoundPage = () => {
     </section>
   );
 };
+
+export default NotFoundPage;

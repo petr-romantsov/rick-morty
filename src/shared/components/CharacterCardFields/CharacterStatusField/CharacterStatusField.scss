@@ -1,0 +1,25 @@
+.characterStatusField {
+  display: flex;
+  flex-direction: column;
+
+  &__propertyName {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 131%;
+    letter-spacing: 0.02em;
+    color: var(--color-text-black);
+  }
+
+  &__status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 27px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.02em;
+    color: var(--color-text-gray);
+  }
+}

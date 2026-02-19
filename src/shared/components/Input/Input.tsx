@@ -48,8 +48,8 @@ export const Input = ({
         type='text'
         className='customInput__input'
         value={value}
-        onChange={onChangeHandler}
         placeholder={placeholder}
+        onChange={onChangeHandler}
       />
       {value !== '' && (
         <button className='customInput__clearBtn' onClick={handleClear} type='button'>

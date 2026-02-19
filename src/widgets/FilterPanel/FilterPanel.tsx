@@ -1,7 +1,13 @@
 import { type FormEventHandler, memo } from 'react';
 
 import { SearchIcon } from '@/assets';
-import { GENDER_OPTIONS, Input, SPECIES_OPTIONS, STATUS_OPTIONS, Select } from '@/shared/components';
+import {
+  GENDER_OPTIONS,
+  Input,
+  SPECIES_OPTIONS,
+  STATUS_OPTIONS,
+  Select
+} from '@/shared/components';
 import type { TFilters } from '@/shared/types';
 
 import './FilterPanel.scss';
@@ -27,18 +33,18 @@ export const FilterPanel = memo(
       <form className='filterPanel' onSubmit={onSubmit}>
         <Input
           view='bordered'
-          value={nameValue}
           placeholder='Filter by name...'
-          onChange={handleNameChange}
+          value={nameValue}
           icon={<SearchIcon />}
+          onChange={handleNameChange}
         />
         {selects.map(({ key, options, placeholder }) => (
           <Select
+            size='medium'
             key={key}
             value={filters[key]}
             options={options}
             placeholder={placeholder}
-            size='medium'
             onChange={(value) => handleFilterChange(key, value)}
           />
         ))}

@@ -50,13 +50,14 @@ const getCharacterInfoFields = (character: TCharacter | null): TCharacterInfoFie
   ];
 };
 
-export const CharacterInfo = () => {
+const CharacterInfo = () => {
   const { id } = useParams();
   const { character, isLoading, error } = useLoadCharacterInfo({ id: Number(id) });
   const navigate = useNavigate();
 
+  // обработка ошибок
   useEffect(() => {
-    if (error && error === '404') {
+    if (error && error === 'Not found') {
       navigate(ROUTES.NOT_FOUND, { replace: true });
     } else if (error) {
       showErrorToast(error);
@@ -74,7 +75,9 @@ export const CharacterInfo = () => {
         </Link>
 
         {isLoading && <Loader size='large' />}
-        {!isLoading && !character && <div className='character-info__not-found'>Something went wrong:(</div>}
+        {!isLoading && !character && (
+          <div className='character-info__not-found'>Something went wrong:(</div>
+        )}
 
         {character && (
           <>
@@ -97,3 +100,4 @@ export const CharacterInfo = () => {
     </>
   );
 };
+export default CharacterInfo;

@@ -1,7 +1,12 @@
+import { lazy } from 'react';
+
 import { createHashRouter } from 'react-router';
 
-import { CharacterInfo, CharactersList, NotFoundPage } from '@/pages';
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout';
+
+const CharactersList = lazy(() => import('@/pages/CharactersList/CharactersList'));
+const CharacterInfo = lazy(() => import('@/pages/CharacterInfo/CharacterInfo'));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage/NotFoundPage'));
 
 export const router = createHashRouter([
   {

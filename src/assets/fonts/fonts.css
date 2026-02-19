@@ -1,7 +1,10 @@
 @font-face {
   font-family: Roboto;
-  src: local('RobotoRegular'), url('./fonts/RobotoRegular.eot') format('embedded-opentype'),
-    url('./fonts/RobotoRegular.woff2') format('woff2'), url('./fonts/RobotoRegular.woff') format('woff');
+  src:
+    local('RobotoRegular'),
+    url('@/assets/fonts/RobotoRegular.eot') format('embedded-opentype'),
+    url('@/assets/fonts/RobotoRegular.woff2') format('woff2'),
+    url('@/assets/fonts/RobotoRegular.woff') format('woff');
   font-weight: 400;
   font-display: swap;
   font-style: normal;
@@ -9,8 +12,11 @@
 
 @font-face {
   font-family: Roboto;
-  src: local('RobotoMedium'), url('./fonts/RobotoMedium.eot') format('embedded-opentype'),
-    url('./fonts/RobotoMedium.woff2') format('woff2'), url('./fonts/RobotoMedium.woff') format('woff');
+  src:
+    local('RobotoMedium'),
+    url('@/assets/fonts/RobotoMedium.eot') format('embedded-opentype'),
+    url('@/assets/fonts/RobotoMedium.woff2') format('woff2'),
+    url('@/assets/fonts/RobotoMedium.woff') format('woff');
   font-style: normal;
   font-weight: 500;
   font-display: swap;
@@ -18,8 +24,11 @@
 
 @font-face {
   font-family: Roboto;
-  src: local('RobotoBold'), url('./fonts/RobotoBold.eot') format('embedded-opentype'),
-    url('./fonts/RobotoBold.woff2') format('woff2'), url('./fonts/RobotoBold.woff') format('woff');
+  src:
+    local('RobotoBold'),
+    url('@/assets/fonts/RobotoBold.eot') format('embedded-opentype'),
+    url('@/assets/fonts/RobotoBold.woff2') format('woff2'),
+    url('@/assets/fonts/RobotoBold.woff') format('woff');
   font-style: normal;
   font-weight: 700;
   font-display: swap;

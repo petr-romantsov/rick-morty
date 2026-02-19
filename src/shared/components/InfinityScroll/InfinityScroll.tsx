@@ -33,6 +33,7 @@ const InfinityScrollInner = ({
     [hasNextPage, isNextPageLoading, loadNextPage]
   );
 
+  // установка обсервера для подгрузки списка
   useEffect(() => {
     if (!sentinelRef.current) return;
 
