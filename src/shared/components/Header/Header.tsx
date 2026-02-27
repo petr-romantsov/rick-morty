@@ -5,7 +5,7 @@ import './Header.scss';
 export const Header = () => {
   return (
     <header className='header'>
-      <div className='header__container'>
+      <div className='header__container container'>
         <img src={logoPng} alt='Rick&Morty Logo' className='header__logo' />
       </div>
     </header>

@@ -79,19 +79,21 @@ export const CharacterCard = memo(({ character, onUpdate }: TCharacterCardProps)
           name={name || character.name}
           onchange={(value) => handleInputChange('name', value)}
         />
-        <CharacterCardField propertyName='Gender' propertyValue={gender} />
-        <CharacterCardField propertyName='Species' propertyValue={species} />
+        <div className='characterCard__fields-wrapper'>
+          <CharacterCardField propertyName='Gender' propertyValue={gender} />
+          <CharacterCardField propertyName='Species' propertyValue={species} />
 
-        <CharacterCardLocationField
-          isReadonly={readonly}
-          location={location.name || 'Unknown'}
-          onChange={(value) => handleInputChange('location', value)}
-        />
-        <CharacterStatusField
-          isReadonly={readonly}
-          status={status}
-          onChange={(value) => handleInputChange('status', value)}
-        />
+          <CharacterCardLocationField
+            isReadonly={readonly}
+            location={location.name || 'Unknown'}
+            onChange={(value) => handleInputChange('location', value)}
+          />
+          <CharacterStatusField
+            isReadonly={readonly}
+            status={status}
+            onChange={(value) => handleInputChange('status', value)}
+          />
+        </div>
       </div>
       <CardButtons
         readonly={readonly}

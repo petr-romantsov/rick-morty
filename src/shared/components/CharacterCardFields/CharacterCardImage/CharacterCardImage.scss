@@ -3,10 +3,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 240px;
-  height: 234px;
+  flex-shrink: 0;
+  max-width: 240px;
+  max-height: 234px;
+  aspect-ratio: 240 / 234;
   border-radius: 6px 6px 0 0;
   overflow: hidden;
+
+  @include w1024 {
+    max-width: 100%;
+    max-height: 200px;
+  }
+
+  @include w576 {
+    max-height: 171px;
+  }
+
+  @include w360 {
+    max-width: 100%;
+  }
 
   &__errorMessage {
     font-size: 14px;

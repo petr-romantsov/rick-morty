@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto;
+
+  // margin: auto;
   padding: 16px 0 42px;
 
   &__back {
@@ -20,6 +21,11 @@
     color: var(--color-text-black);
     background-color: transparent;
     cursor: pointer;
+
+    @include w1024 {
+      position: static;
+      align-self: flex-start;
+    }
   }
 
   &__img {
@@ -29,21 +35,40 @@
     border: 5px solid var(--color-border-gray);
     border-radius: 100%;
     overflow: hidden;
+
+    @include w360 {
+      width: 150px;
+      height: 150px;
+      margin-bottom: 30px;
+    }
   }
 
   &__title {
     margin-bottom: 42px;
     font-size: 48px;
+
+    @include w360 {
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
   }
 
   &__subtitle {
     margin-bottom: 36px;
     font-size: 20px;
     color: var(--color-text-gray);
+
+    @include w360 {
+      margin-bottom: 16px;
+    }
   }
 
   &__list {
     width: 413px;
+
+    @include w360 {
+      width: 320px;
+    }
   }
 
   &__list-item {

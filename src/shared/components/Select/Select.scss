@@ -4,7 +4,13 @@
   position: relative;
 
   &_size_medium {
-    width: 240px;
+    width: 100%;
+    max-width: 240px;
+
+    @include w1024 {
+      max-width: 100%;
+    }
+
   }
 
   &_size_small {
@@ -114,7 +120,7 @@
     }
 
     &:active {
-      background-color: #a4a4a4
+      background-color: #a4a4a4;
     }
   }
 }

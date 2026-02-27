@@ -1,8 +1,9 @@
 .characterNameField {
   &__link {
     position: relative;
-    width: fit-content;
-    height: 31px;
+    display: block;
+    width: 100%;
+    min-width: 0;
     font-family: var(--roboto-font-family);
     font-size: 20px;
     line-height: 150%;
