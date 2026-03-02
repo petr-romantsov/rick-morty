@@ -27,19 +27,8 @@
     color: var(--color-border);
     border-color: var(--color-border);
 
-    @include w1440 {
-      min-width: 240px;
-      padding: 16px 12px 16px 16px;
-    }
-
     @include w1024 {
       min-width: 100%;
-      padding: 16px 12px 16px 16px;
-    }
-
-    @include w360 {
-      min-width: 100%;
-      padding: 16px 12px 16px 16px;
     }
 
     #{$p} {
@@ -96,6 +85,13 @@
 
     &:focus {
       outline: none;
+    }
+
+    @include w360 {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 69px;
+      overflow: hidden;
     }
   }
 

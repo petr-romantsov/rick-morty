@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 
 import { ArrowLeft } from '@/assets';
 import { useLoadCharacterInfo } from '@/hooks';
-import { Loader } from '@/shared/components';
+import { Loader, PropertyLabel } from '@/shared/components';
 import { ROUTES } from '@/shared/constants';
 import { showErrorToast } from '@/shared/helpers';
 import type { TCharacter } from '@/shared/types';
@@ -55,7 +55,6 @@ const CharacterInfo = () => {
   const { character, isLoading, error } = useLoadCharacterInfo({ id: Number(id) });
   const navigate = useNavigate();
 
-  // обработка ошибок
   useEffect(() => {
     if (error && error === 'Not found') {
       navigate(ROUTES.NOT_FOUND, { replace: true });
@@ -89,7 +88,7 @@ const CharacterInfo = () => {
             <ul className='character-info__list'>
               {characterInfoFields.map(({ title, value }) => (
                 <li key={title} className='character-info__list-item'>
-                  <h3 className='character-info__item-title'>{title}</h3>
+                  <PropertyLabel className='character-info__item-title'>{title}</PropertyLabel>
                   <p className='character-info__item-text'>{value}</p>
                 </li>
               ))}

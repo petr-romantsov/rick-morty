@@ -55,7 +55,6 @@ export const Select = <T,>({
     [onChange, value]
   );
 
-  // закрытие селекта по клику за его пределами
   useEffect(() => {
     if (!isSelectOpen) return;
 

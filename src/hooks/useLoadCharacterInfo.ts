@@ -37,7 +37,6 @@ export const useLoadCharacterInfo = ({ id }: TUseLoadCharacterInfoProps) => {
     }
   }, [id]);
 
-  // запрос инфо о персонаже
   useEffect(() => {
     loadCharacterInfo();
 

@@ -50,7 +50,6 @@ export const CharacterCard = memo(({ character, onUpdate }: TCharacterCardProps)
     setEditedCharacter(character);
   }, [character]);
 
-  // обработка нажатия клавиши Esc
   useEffect(() => {
     if (readonly) return;
 
@@ -77,7 +76,7 @@ export const CharacterCard = memo(({ character, onUpdate }: TCharacterCardProps)
           isReadonly={readonly}
           linkPath={ROUTES.CHARACTER_PAGE(character.id.toString())}
           name={name || character.name}
-          onchange={(value) => handleInputChange('name', value)}
+          onChange={(value) => handleInputChange('name', value)}
         />
         <div className='characterCard__fields-wrapper'>
           <CharacterCardField propertyName='Gender' propertyValue={gender} />
