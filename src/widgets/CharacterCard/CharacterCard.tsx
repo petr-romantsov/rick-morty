@@ -50,7 +50,6 @@ export const CharacterCard = memo(({ character, onUpdate }: TCharacterCardProps)
     setEditedCharacter(character);
   }, [character]);
 
-  // обработка нажатия клавиши Esc
   useEffect(() => {
     if (readonly) return;
 

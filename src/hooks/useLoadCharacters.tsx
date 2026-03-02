@@ -59,7 +59,6 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
     }
   }, [filters, currentPage]);
 
-  // загрузка списка персонажей
   useEffect(() => {
     loadCharacters();
 

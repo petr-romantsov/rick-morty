@@ -1,3 +1,5 @@
+import { PropertyLabel } from '@/shared/components';
+
 import './CharacterCardField.scss';
 
 type TCharacterCardFieldProps = {
@@ -8,7 +10,7 @@ type TCharacterCardFieldProps = {
 export const CharacterCardField = ({ propertyName, propertyValue }: TCharacterCardFieldProps) => {
   return (
     <div className='characterCardField'>
-      <h3 className='characterCardField__propertyName'>{propertyName}</h3>
+      <PropertyLabel>{propertyName}</PropertyLabel>
       <p className='characterCardField__propertyValue'>{propertyValue}</p>
     </div>
   );

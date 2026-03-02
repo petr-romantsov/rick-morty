@@ -8,14 +8,14 @@ type TCharacterNameField = {
   isReadonly: boolean;
   linkPath: string;
   name: string;
-  onchange: (value: string) => void;
+  onChange: (value: string) => void;
 };
 
 export const CharacterNameField = ({
   isReadonly,
   linkPath,
   name,
-  onchange
+  onChange
 }: TCharacterNameField) => {
   return (
     <div className='characterNameLinkField'>
@@ -24,7 +24,7 @@ export const CharacterNameField = ({
           {name}
         </Link>
       ) : (
-        <Input view='underlined' value={name} readonly={isReadonly} onChange={onchange} />
+        <Input view='underlined' value={name} readonly={isReadonly} onChange={onChange} />
       )}
     </div>
   );

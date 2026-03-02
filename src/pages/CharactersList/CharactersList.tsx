@@ -30,6 +30,7 @@ const CharactersList = () => {
   });
 
   const SmallLoader = <Loader size='small' />;
+  const DEFAULT_CARDS_SKELETONS_COUNT = 10;
 
   const updateFiltersName = useCallback((value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, name: value }));
@@ -61,7 +62,6 @@ const CharactersList = () => {
     }
   }, [isLoading, hasNextPage, isNextPageLoading]);
 
-  // показ тоста об ошибке
   useEffect(() => {
     if (error && error !== '404') {
       showErrorToast(error);
@@ -86,7 +86,7 @@ const CharactersList = () => {
       >
         <ul className='characterList'>
           {isLoading && characters.length === 0
-            ? Array.from({ length: 10 }).map((_, index) => (
+            ? Array.from({ length: DEFAULT_CARDS_SKELETONS_COUNT }).map((_, index) => (
                 <li key={index}>
                   <CharacterCardSkeleton />
                 </li>

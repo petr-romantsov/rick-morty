@@ -1,6 +1,4 @@
-import { Input } from '@/shared/components';
-
-import './CharacterCardLocationField.scss';
+import { Input, PropertyLabel } from '@/shared/components';
 
 type TCharacterLocationFieldProps = {
   isReadonly: boolean;
@@ -14,8 +12,8 @@ export const CharacterCardLocationField = ({
   onChange
 }: TCharacterLocationFieldProps) => {
   return (
-    <div className='characterLocationField'>
-      <h3 className='characterLocationField__propertyName'>Location</h3>
+    <div>
+      <PropertyLabel>Location</PropertyLabel>
       <Input
         size='small'
         view='underlined'

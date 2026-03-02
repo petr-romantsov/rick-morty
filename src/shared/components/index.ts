@@ -15,3 +15,4 @@ export * from './CharacterCardFields/CharacterCardLocationField/CharacterCardLoc
 export * from './CharacterCardFields/CharacterStatusField/CharacterStatusField';
 export * from './CharacterCardFields/CharacterCardImage/CharacterCardImage';
 export * from './CharacterCardSkeleton/CharacterCardSkeleton';
+export * from './PropertyLabel/PropertyLabel';

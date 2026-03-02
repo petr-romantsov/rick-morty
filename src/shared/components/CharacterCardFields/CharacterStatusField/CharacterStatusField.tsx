@@ -1,4 +1,4 @@
-import { Select, Status, type TStatus } from '@/shared/components';
+import { PropertyLabel, Select, Status, type TStatus } from '@/shared/components';
 import { STATUS_OPTIONS } from '@/shared/constants';
 
 import './CharacterStatusField.scss';
@@ -16,7 +16,7 @@ export const CharacterStatusField = ({
 }: TCharacterStatusFieldProps) => {
   return (
     <div className='characterStatusField'>
-      <h3 className='characterStatusField__propertyName'>Status</h3>
+      <PropertyLabel>Status</PropertyLabel>
       <div className='characterStatusField__status'>
         {isReadonly ? (
           <>
