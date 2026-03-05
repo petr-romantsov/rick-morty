@@ -17,7 +17,7 @@ type SelectOptionContentProps<T> = {
 
 type TSelectorProps<T> = {
   options: TSelectOption<T>[];
-  onChange: (value: T) => void;
+  onChange: (value: T | string) => void;
   value?: T;
   size?: 'medium' | 'small';
   placeholder?: string;
@@ -46,9 +46,9 @@ export const Select = <T,>({
   const handleOptionClick = useCallback(
     (option: TSelectOption<T>) => {
       if (option.value === value) {
-        onChange('' as T);
+        onChange('');
       } else {
-        onChange(option.value);
+        onChange(option.label);
       }
       setIsSelectOpen(false);
     },

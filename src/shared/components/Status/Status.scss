@@ -6,6 +6,11 @@
   background-color: transparent;
   flex-shrink: 0;
 
+  @include w360 {
+    width: 7px;
+    height: 7px;
+  }
+
   &_alive {
     background-color: var(--color-status-green);
   }
