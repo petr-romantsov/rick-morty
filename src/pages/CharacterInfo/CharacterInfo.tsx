@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 
 import { ArrowLeft } from '@/assets';
 import { useLoadCharacterInfo } from '@/hooks';
-import { Loader } from '@/shared/components';
+import { Loader, PropertyLabel } from '@/shared/components';
 import { ROUTES } from '@/shared/constants';
 import { showErrorToast } from '@/shared/helpers';
 import type { TCharacter } from '@/shared/types';
@@ -50,13 +50,13 @@ const getCharacterInfoFields = (character: TCharacter | null): TCharacterInfoFie
   ];
 };
 
-export const CharacterInfo = () => {
+const CharacterInfo = () => {
   const { id } = useParams();
   const { character, isLoading, error } = useLoadCharacterInfo({ id: Number(id) });
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (error && error === '404') {
+    if (error && error === 'Not found') {
       navigate(ROUTES.NOT_FOUND, { replace: true });
     } else if (error) {
       showErrorToast(error);
@@ -74,7 +74,9 @@ export const CharacterInfo = () => {
         </Link>
 
         {isLoading && <Loader size='large' />}
-        {!isLoading && !character && <div className='character-info__not-found'>Something went wrong:(</div>}
+        {!isLoading && !character && (
+          <div className='character-info__not-found'>Something went wrong:(</div>
+        )}
 
         {character && (
           <>
@@ -86,7 +88,7 @@ export const CharacterInfo = () => {
             <ul className='character-info__list'>
               {characterInfoFields.map(({ title, value }) => (
                 <li key={title} className='character-info__list-item'>
-                  <h3 className='character-info__item-title'>{title}</h3>
+                  <PropertyLabel className='character-info__item-title'>{title}</PropertyLabel>
                   <p className='character-info__item-text'>{value}</p>
                 </li>
               ))}
@@ -97,3 +99,4 @@ export const CharacterInfo = () => {
     </>
   );
 };
+export default CharacterInfo;

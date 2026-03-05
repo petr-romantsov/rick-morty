@@ -1,14 +1,18 @@
+import { Suspense } from 'react';
+
 import { RouterProvider } from 'react-router';
 
 import { router } from '@/app/router/router';
-import { ErrorBoundary } from '@/shared';
+import { ErrorBoundary, Loader } from '@/shared';
 
 import './App.scss';
 
 function App() {
   return (
     <ErrorBoundary>
-      <RouterProvider router={router} />
+      <Suspense fallback={<Loader size='large' text='Loading...' />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </ErrorBoundary>
   );
 }

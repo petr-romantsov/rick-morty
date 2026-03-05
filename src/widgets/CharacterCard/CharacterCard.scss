@@ -3,7 +3,9 @@
   display: flex;
   gap: 13px;
   width: 100%;
+  height: 100%;
   padding: 7px;
+  padding-right: 30px;
   border-radius: 6px;
   box-shadow: 1px 1px 4px 0 rgb(0 0 0 / 25%);
 
@@ -16,116 +18,39 @@
     }
   }
 
-  &__imgWrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 240px;
-    height: 234px;
-    border-radius: 6px 6px 0 0;
-    overflow: hidden;
-  }
-
-  &__imgError {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
-    letter-spacing: 0.02em;
-    color: var(--color-text-gray);
-  }
-
-  &__imgLoading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
-    letter-spacing: 0.02em;
-    color: var(--color-text-gray);
-    transform: translate(-50%, -50%);
-  }
-
-  &__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  @include w1024 {
+    flex-direction: column;
+    padding-right: 7px;
   }
 
   &__content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
+    min-width: 0;
 
-  &__link {
-    position: relative;
-    width: 178px;
-    height: 31px;
-    font-family: var(--roboto-font-family);
-    font-size: 20px;
-    line-height: 150%;
-    letter-spacing: 0.01em;
-    color: var(--color-text-black);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        &::after {
-          transform: scaleX(1);
-        }
-      }
+    @include w1024 {
+      gap: 10px;
     }
 
-    &::after {
-      position: absolute;
-      bottom: -3px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: var(--color-text-black);
-      content: '';
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform 0.3s linear;
+    @include w360 {
+      gap: 10px;
     }
   }
 
-  &__property {
+  &__fields-wrapper {
     display: flex;
     flex-direction: column;
-  }
+    justify-content: space-between;
+    gap: 10px;
 
-  &__propertyName {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 131%;
-    letter-spacing: 0.02em;
-    color: var(--color-text-black);
-  }
+    @include w360 {
+      flex-direction: row;
 
-  &__propertyValue {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
-    letter-spacing: 0.02em;
-    color: var(--color-text-gray);
-  }
-
-  &__status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 27px;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
-    letter-spacing: 0.02em;
-    color: var(--color-text-gray);
+      & > * {
+        max-width: 69px;
+      }
+    }
   }
 }
 

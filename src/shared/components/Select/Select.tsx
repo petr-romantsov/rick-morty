@@ -80,7 +80,11 @@ export const Select = <T,>({
       })}
       ref={selectRef}
     >
-      <button className='selector__button' onClick={() => setIsSelectOpen((open) => !open)} type='button'>
+      <button
+        className='selector__button'
+        onClick={() => setIsSelectOpen((open) => !open)}
+        type='button'
+      >
         {!!selectedOption ? <SelectOptionContentComponent option={selectedOption} /> : placeholder}
         <ChevronDown className='selector__icon' />
       </button>

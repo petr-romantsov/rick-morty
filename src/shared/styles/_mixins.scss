@@ -1,0 +1,26 @@
+@use '@/shared/styles/variables' as *;
+
+
+@mixin w360 {
+  @media (width <= $w576) {
+    @content;
+  }
+}
+
+@mixin w576 {
+  @media (width <= $w767) {
+    @content;
+  }
+}
+
+@mixin w1024 {
+  @media (width <= $w1024) {
+    @content;
+  }
+}
+
+@mixin w1440 {
+  @media (width >= $w1024) and (width <= $w1440) {
+    @content;
+  }
+}

@@ -9,5 +9,16 @@
   &__img {
     width: 600px;
     height: 200px;
+
+    @include w1440 {
+      width: 600px;
+      height: 200px;
+    }
+
+    @include w1024 {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
   }
 }

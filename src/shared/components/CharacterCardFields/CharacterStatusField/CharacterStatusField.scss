@@ -1,0 +1,16 @@
+.characterStatusField {
+  display: flex;
+  flex-direction: column;
+
+  &__status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 27px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.02em;
+    color: var(--color-text-gray);
+  }
+}

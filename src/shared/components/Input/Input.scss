@@ -19,13 +19,17 @@
   }
 
   &_view_bordered {
-    width: 240px;
-    height: 56px;
-    padding: 0 12px 0 16px;
+    width: 100%;
+    min-width: 240px;
+    padding: 16px 12px 16px 16px;
     border: 1px solid;
     border-radius: 8px;
-    border-color: var(--color-border);
     color: var(--color-border);
+    border-color: var(--color-border);
+
+    @include w1024 {
+      min-width: 100%;
+    }
 
     #{$p} {
       &__input {
@@ -81,6 +85,13 @@
 
     &:focus {
       outline: none;
+    }
+
+    @include w360 {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 69px;
+      overflow: hidden;
     }
   }
 
