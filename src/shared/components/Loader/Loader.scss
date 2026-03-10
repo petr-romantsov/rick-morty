@@ -12,6 +12,11 @@
       &__img {
         width: 103px;
         height: 101px;
+
+        @include w576 {
+          width: 80px;
+          height: 78px;
+        }
       }
     }
   }
@@ -21,6 +26,11 @@
       &__img {
         width: 475px;
         height: 465px;
+
+        @include w576 {
+          width: 220px;
+          height: 215px;
+        }
       }
     }
   }

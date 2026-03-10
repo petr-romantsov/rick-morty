@@ -18,7 +18,7 @@ export const CharacterNameField = ({
   onChange
 }: TCharacterNameField) => {
   return (
-    <div className='characterNameLinkField'>
+    <div className='characterNameField'>
       {isReadonly ? (
         <Link className='characterNameField__link' to={linkPath}>
           {name}

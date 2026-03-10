@@ -1,4 +1,8 @@
 .characterNameField {
+  @include w360 {
+    width: fit-content;
+  }
+
   &__link {
     position: relative;
     display: block;

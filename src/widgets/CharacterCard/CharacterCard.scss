@@ -46,8 +46,13 @@
 
     @include w360 {
       flex-direction: row;
+      padding-right: 15px;
 
       & > * {
+        max-width: 69px;
+      }
+
+      & input {
         max-width: 69px;
       }
     }
