@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useTransition } from 'react';
 
 import { useDebounce, useLoadCharacters } from '@/hooks';
 import { InfinityScroll, Loader, MainLogo } from '@/shared/components';
@@ -10,6 +10,7 @@ import { CharacterCard, FilterPanel } from '@/widgets';
 import './CharacterList.scss';
 
 const CharactersList = () => {
+  const [isPending, startTransition] = useTransition();
   const [nameInputValue, setNameInputValue] = useState('');
   const [filters, setFilters] = useState<TFilters>({
     name: '',
@@ -36,18 +37,16 @@ const CharactersList = () => {
     setFilters((prevFilters) => ({ ...prevFilters, name: value }));
   }, []);
 
-  const debouncedUpdateFiltersName = useDebounce({
-    cb: updateFiltersName,
-    delay: 1000
-  });
+  // const debouncedUpdateFiltersName = useDebounce({
+  //   cb: updateFiltersName,
+  //   delay: 1000
+  // });
 
-  const handleNameChange = useCallback(
-    (value: string) => {
-      setNameInputValue(value);
-      debouncedUpdateFiltersName(value);
-    },
-    [debouncedUpdateFiltersName]
-  );
+  const handleNameChange = useCallback((value: string) => {
+    setNameInputValue(value);
+    startTransition(() => updateFiltersName(value));
+    // debouncedUpdateFiltersName(value);
+  }, []);
 
   const handleFilterChange = useCallback((filter: keyof TFilters, value: string | null) => {
     setFilters((prevFilters) => ({
@@ -69,6 +68,10 @@ const CharactersList = () => {
   }, [error]);
 
   const renderPageContent = () => {
+    if (isPending) {
+      return <div style={{ margin: 'auto' }}>Pending...</div>;
+    }
+
     if (error === '404') {
       return (
         <div className='characterList__notFoundMessage'>
