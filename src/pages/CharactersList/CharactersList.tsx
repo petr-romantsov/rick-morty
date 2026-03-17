@@ -1,23 +1,16 @@
-import { useCallback, useEffect, useState, useTransition } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 
-import { useDebounce, useLoadCharacters } from '@/hooks';
-import { InfinityScroll, Loader, MainLogo } from '@/shared/components';
-import { CharacterCardSkeleton } from '@/shared/components';
+import { useLoadCharacters } from '@/hooks';
+import { InfinityScroll, CharacterCardSkeleton, Loader, MainLogo } from '@/shared/components';
 import { showErrorToast } from '@/shared/helpers';
-import type { TFilters } from '@/shared/types';
+import { CharactersFiltersContext } from '@/stores';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
 import './CharacterList.scss';
 
 const CharactersList = () => {
-  const [isPending, startTransition] = useTransition();
-  const [nameInputValue, setNameInputValue] = useState('');
-  const [filters, setFilters] = useState<TFilters>({
-    name: '',
-    species: '',
-    gender: '',
-    status: null
-  });
+  const { filters } = useContext(CharactersFiltersContext);
+
   const {
     characters,
     isLoading,
@@ -33,28 +26,6 @@ const CharactersList = () => {
   const SmallLoader = <Loader size='small' />;
   const DEFAULT_CARDS_SKELETONS_COUNT = 10;
 
-  const updateFiltersName = useCallback((value: string) => {
-    setFilters((prevFilters) => ({ ...prevFilters, name: value }));
-  }, []);
-
-  // const debouncedUpdateFiltersName = useDebounce({
-  //   cb: updateFiltersName,
-  //   delay: 1000
-  // });
-
-  const handleNameChange = useCallback((value: string) => {
-    setNameInputValue(value);
-    startTransition(() => updateFiltersName(value));
-    // debouncedUpdateFiltersName(value);
-  }, []);
-
-  const handleFilterChange = useCallback((filter: keyof TFilters, value: string | null) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [filter]: value
-    }));
-  }, []);
-
   const loadNextPage = useCallback(() => {
     if (!isLoading && hasNextPage && !isNextPageLoading) {
       setCurrentPage((prev) => prev + 1);
@@ -62,17 +33,13 @@ const CharactersList = () => {
   }, [isLoading, hasNextPage, isNextPageLoading]);
 
   useEffect(() => {
-    if (error && error !== '404') {
+    if (error && error !== 'Not found') {
       showErrorToast(error);
     }
   }, [error]);
 
   const renderPageContent = () => {
-    if (isPending) {
-      return <div style={{ margin: 'auto' }}>Pending...</div>;
-    }
-
-    if (error === '404') {
+    if (error === 'Not found') {
       return (
         <div className='characterList__notFoundMessage'>
           No characters with these parameters were found
@@ -107,12 +74,7 @@ const CharactersList = () => {
   return (
     <>
       <MainLogo />
-      <FilterPanel
-        nameValue={nameInputValue}
-        filters={filters}
-        handleFilterChange={handleFilterChange}
-        handleNameChange={handleNameChange}
-      />
+      <FilterPanel />
       {renderPageContent()}
     </>
   );

@@ -1,4 +1,4 @@
-import { type FormEventHandler, memo } from 'react';
+import { type FormEventHandler, memo, useContext } from 'react';
 
 import { SearchIcon } from '@/assets';
 import {
@@ -8,16 +8,9 @@ import {
   STATUS_OPTIONS,
   Select
 } from '@/shared/components';
-import type { TFilters } from '@/shared/types';
+import { CharactersFiltersContext } from '@/stores';
 
 import './FilterPanel.scss';
-
-type TFilterPanelProps = {
-  nameValue: string;
-  filters: TFilters;
-  handleFilterChange: (filter: keyof TFilters, value: string | null) => void;
-  handleNameChange: (value: string) => void;
-};
 
 const selects = [
   { key: 'species', options: SPECIES_OPTIONS, placeholder: 'Species' },
@@ -25,30 +18,31 @@ const selects = [
   { key: 'status', options: STATUS_OPTIONS, placeholder: 'Status' }
 ] as const;
 
-export const FilterPanel = memo(
-  ({ nameValue, filters, handleFilterChange, handleNameChange }: TFilterPanelProps) => {
-    const onSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
+export const FilterPanel = memo(() => {
+  const { nameInputValue, filters, handleFilterChange, handleNameChange } =
+    useContext(CharactersFiltersContext);
 
-    return (
-      <form className='filterPanel' onSubmit={onSubmit}>
-        <Input
-          view='bordered'
-          placeholder='Filter by name...'
-          value={nameValue}
-          icon={<SearchIcon />}
-          onChange={handleNameChange}
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
+
+  return (
+    <form className='filterPanel' onSubmit={onSubmit}>
+      <Input
+        view='bordered'
+        placeholder='Filter by name...'
+        value={nameInputValue}
+        icon={<SearchIcon />}
+        onChange={handleNameChange}
+      />
+      {selects.map(({ key, options, placeholder }) => (
+        <Select
+          size='medium'
+          key={key}
+          value={filters[key]}
+          options={options}
+          placeholder={placeholder}
+          onChange={(value) => handleFilterChange(key, value)}
         />
-        {selects.map(({ key, options, placeholder }) => (
-          <Select
-            size='medium'
-            key={key}
-            value={filters[key]}
-            options={options}
-            placeholder={placeholder}
-            onChange={(value) => handleFilterChange(key, value)}
-          />
-        ))}
-      </form>
-    );
-  }
-);
+      ))}
+    </form>
+  );
+});
