@@ -45,7 +45,7 @@ export const Select = <T,>({
 
   const handleOptionClick = useCallback(
     (option: TSelectOption<T>) => {
-      if (option.value === value) {
+      if (option.value === normalizedValue) {
         onChange('');
       } else {
         onChange(option.label);

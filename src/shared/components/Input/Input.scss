@@ -90,8 +90,6 @@
     @include w360 {
       text-overflow: ellipsis;
       white-space: nowrap;
-
-      // max-width: 69px;
       overflow: hidden;
     }
   }
