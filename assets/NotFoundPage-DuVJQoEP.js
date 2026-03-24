@@ -1,1 +1,0 @@
-import{j as r,L as s}from"./index-BNv5I72D.js";const e="/rick-morty/assets/404-C5rNe8ge.png",a=()=>r.jsxs("section",{className:"error-404",children:[r.jsx("img",{src:e,alt:"Error 404",className:"error-404__img"}),r.jsx(s,{to:"/",className:"error-404__link",children:"Go to main page"})]});export{a as default};
