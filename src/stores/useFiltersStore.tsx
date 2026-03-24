@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 import { type StateCreator, create } from 'zustand';
-=======
-import { memo } from 'react';
-
-import { type StateCreator, create } from 'zustand';
-import { useShallow } from 'zustand/react/shallow';
->>>>>>> ebb643fd5dee3dcef4b7bebc452561b93be43376
 
 import type { TFilters } from '@/shared/types';
 
