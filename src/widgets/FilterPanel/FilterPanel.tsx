@@ -2,6 +2,8 @@ import { type FormEventHandler, memo } from 'react';
 
 import { useShallow } from 'zustand/react/shallow';
 
+import { useShallow } from 'zustand/react/shallow';
+
 import { SearchIcon } from '@/assets';
 import {
   GENDER_OPTIONS,
