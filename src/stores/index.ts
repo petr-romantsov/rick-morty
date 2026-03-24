@@ -1,1 +1,1 @@
-export * from './CharactersFiltersContext';
+export * from './useFiltersStore';

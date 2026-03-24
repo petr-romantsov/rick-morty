@@ -1,4 +1,6 @@
-import { type FormEventHandler, memo, useContext } from 'react';
+import { type FormEventHandler, memo } from 'react';
+
+import { useShallow } from 'zustand/react/shallow';
 
 import { SearchIcon } from '@/assets';
 import {
@@ -8,7 +10,7 @@ import {
   STATUS_OPTIONS,
   Select
 } from '@/shared/components';
-import { CharactersFiltersContext } from '@/stores';
+import { useFiltersStore } from '@/stores';
 
 import './FilterPanel.scss';
 
@@ -19,8 +21,15 @@ const selects = [
 ] as const;
 
 export const FilterPanel = memo(() => {
-  const { nameInputValue, filters, handleFilterChange, handleNameChange } =
-    useContext(CharactersFiltersContext);
+  const { filters, nameInputValue, handleFilterChange, handleNameChange } =
+    useFiltersStore(
+      useShallow((state) => ({
+        filters: state.filters,
+        nameInputValue: state.nameInputValue,
+        handleFilterChange: state.setFilters,
+        handleNameChange: state.setNameInputValue
+      }))
+    );
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
 
