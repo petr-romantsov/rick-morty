@@ -1,15 +1,15 @@
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { useLoadCharacters } from '@/hooks';
 import { InfinityScroll, CharacterCardSkeleton, Loader, MainLogo } from '@/shared/components';
 import { showErrorToast } from '@/shared/helpers';
-import { CharactersFiltersContext } from '@/stores';
+import { useFilters } from '@/stores';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
 import './CharacterList.scss';
 
 const CharactersList = () => {
-  const { filters } = useContext(CharactersFiltersContext);
+  const filters = useFilters();
 
   const {
     characters,

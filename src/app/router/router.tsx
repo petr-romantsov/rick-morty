@@ -3,7 +3,6 @@ import { lazy } from 'react';
 import { createHashRouter } from 'react-router';
 
 import { PageLayout } from '@/shared/components/PageLayout/PageLayout';
-import { CharactersFiltersProvider } from '@/stores/CharactersFiltersContext';
 
 const CharactersList = lazy(() => import('@/pages/CharactersList/CharactersList'));
 const CharacterInfo = lazy(() => import('@/pages/CharacterInfo/CharacterInfo'));
@@ -17,11 +16,7 @@ export const router = createHashRouter([
     children: [
       {
         index: true,
-        element: (
-          <CharactersFiltersProvider>
-            <CharactersList />
-          </CharactersFiltersProvider>
-        )
+        element: <CharactersList />
       },
       {
         path: 'character/:id',
