@@ -1,8 +1,17 @@
 import { useCallback, useEffect } from 'react';
 
 import { useLoadCharacters } from '@/hooks';
-import { InfinityScroll, CharacterCardSkeleton, Loader, MainLogo } from '@/shared/components';
-import { showErrorToast } from '@/shared/helpers';
+import {
+  InfinityScroll,
+  CharacterCardSkeleton,
+  Loader,
+  MainLogo
+} from '@/shared/components';
+import {
+  getErrorMessage,
+  isNotFoundError,
+  showErrorToast
+} from '@/shared/helpers';
 import { useFilters } from '@/stores';
 import { CharacterCard, FilterPanel } from '@/widgets';
 
@@ -16,8 +25,8 @@ const CharactersList = () => {
     isLoading,
     error,
     hasNextPage,
-    isNextPageLoading,
-    setCurrentPage,
+    isFetchingNextPage,
+    fetchNextPage,
     updateCharacter
   } = useLoadCharacters({
     filters
@@ -27,19 +36,19 @@ const CharactersList = () => {
   const DEFAULT_CARDS_SKELETONS_COUNT = 10;
 
   const loadNextPage = useCallback(() => {
-    if (!isLoading && hasNextPage && !isNextPageLoading) {
-      setCurrentPage((prev) => prev + 1);
+    if (!isLoading && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
-  }, [isLoading, hasNextPage, isNextPageLoading]);
+  }, [isLoading, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   useEffect(() => {
-    if (error && error !== 'Not found') {
-      showErrorToast(error);
+    if (error && !isNotFoundError(error)) {
+      showErrorToast(getErrorMessage(error));
     }
   }, [error]);
 
   const renderPageContent = () => {
-    if (error === 'Not found') {
+    if (error && isNotFoundError(error)) {
       return (
         <div className='characterList__notFoundMessage'>
           No characters with these parameters were found
@@ -51,19 +60,24 @@ const CharactersList = () => {
       <InfinityScroll
         loader={SmallLoader}
         hasNextPage={hasNextPage}
-        isNextPageLoading={isNextPageLoading}
+        isNextPageLoading={isFetchingNextPage}
         loadNextPage={loadNextPage}
       >
         <ul className='characterList'>
           {isLoading && characters.length === 0
-            ? Array.from({ length: DEFAULT_CARDS_SKELETONS_COUNT }).map((_, index) => (
-                <li key={index}>
-                  <CharacterCardSkeleton />
-                </li>
-              ))
+            ? Array.from({ length: DEFAULT_CARDS_SKELETONS_COUNT }).map(
+                (_, index) => (
+                  <li key={index}>
+                    <CharacterCardSkeleton />
+                  </li>
+                )
+              )
             : characters.map((character) => (
                 <li key={character.id}>
-                  <CharacterCard character={character} onUpdate={updateCharacter} />
+                  <CharacterCard
+                    character={character}
+                    onUpdate={updateCharacter}
+                  />
                 </li>
               ))}
         </ul>
