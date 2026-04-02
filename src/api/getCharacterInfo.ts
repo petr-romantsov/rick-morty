@@ -8,7 +8,10 @@ type TGetCharacterInfoParams = {
   signal?: AbortSignal;
 };
 
-export const getCharacterInfo = async ({ id, signal }: TGetCharacterInfoParams): Promise<TCharacter> => {
+export const getCharacterInfo = async ({
+  id,
+  signal
+}: TGetCharacterInfoParams): Promise<TCharacter> => {
   const response = await axios.get(`${API_URL}/${id}`, { signal });
   return response.data;
 };

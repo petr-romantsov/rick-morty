@@ -16,7 +16,9 @@ type TCharacterInfoField = {
   value: string;
 };
 
-const getCharacterInfoFields = (character: TCharacter | null): TCharacterInfoField[] => {
+const getCharacterInfoFields = (
+  character: TCharacter | undefined
+): TCharacterInfoField[] => {
   if (!character) return [];
 
   return [
@@ -52,18 +54,25 @@ const getCharacterInfoFields = (character: TCharacter | null): TCharacterInfoFie
 
 const CharacterInfo = () => {
   const { id } = useParams();
-  const { character, isLoading, error } = useLoadCharacterInfo({ id: Number(id) });
   const navigate = useNavigate();
+  const characterId = Number(id);
+  const { character, isLoading, errorMessage, isError, isNotFound } =
+    useLoadCharacterInfo({ id: characterId });
 
   useEffect(() => {
-    if (error && error === 'Not found') {
+    if (isNotFound) {
       navigate(ROUTES.NOT_FOUND, { replace: true });
-    } else if (error) {
-      showErrorToast(error);
     }
-  }, [error, navigate]);
 
-  const characterInfoFields = useMemo(() => getCharacterInfoFields(character), [character]);
+    if (isError && errorMessage) {
+      showErrorToast(errorMessage);
+    }
+  }, [errorMessage, isNotFound, isError, navigate]);
+
+  const characterInfoFields = useMemo(
+    () => getCharacterInfoFields(character),
+    [character]
+  );
 
   return (
     <>
@@ -75,7 +84,9 @@ const CharacterInfo = () => {
 
         {isLoading && <Loader size='large' />}
         {!isLoading && !character && (
-          <div className='character-info__not-found'>Something went wrong:(</div>
+          <div className='character-info__not-found'>
+            Something went wrong:(
+          </div>
         )}
 
         {character && (
@@ -88,7 +99,9 @@ const CharacterInfo = () => {
             <ul className='character-info__list'>
               {characterInfoFields.map(({ title, value }) => (
                 <li key={title} className='character-info__list-item'>
-                  <PropertyLabel className='character-info__item-title'>{title}</PropertyLabel>
+                  <PropertyLabel className='character-info__item-title'>
+                    {title}
+                  </PropertyLabel>
                   <p className='character-info__item-text'>{value}</p>
                 </li>
               ))}
