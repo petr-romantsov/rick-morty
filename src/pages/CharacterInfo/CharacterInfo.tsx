@@ -2,15 +2,11 @@ import { useEffect, useMemo } from 'react';
 
 import { Link, useNavigate, useParams } from 'react-router';
 
-import { useQuery } from '@tanstack/react-query';
-import axios, { HttpStatusCode } from 'axios';
-
-import { getCharacterInfo } from '@/api/getCharacterInfo';
 import { ArrowLeft } from '@/assets';
 import { useLoadCharacterInfo } from '@/hooks';
 import { Loader, PropertyLabel } from '@/shared/components';
-import { QUERY_KEYS, ROUTES } from '@/shared/constants';
-import { getErrorMessage, showErrorToast } from '@/shared/helpers';
+import { ROUTES } from '@/shared/constants';
+import { showErrorToast } from '@/shared/helpers';
 import type { TCharacter } from '@/shared/types';
 
 import './CharacterInfo.scss';
