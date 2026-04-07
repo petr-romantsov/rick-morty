@@ -1,53 +1,41 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import { getCharacterInfo } from '@/api/getCharacterInfo';
-import { getErrorMessage, isRequestAborted } from '@/shared/helpers';
-import { type TCharacter } from '@/shared/types';
+import { QUERY_KEYS } from '@/shared/constants';
+import { getErrorMessage, isNotFoundError } from '@/shared/helpers';
 
 type TUseLoadCharacterInfoProps = {
   id: number;
 };
 
 export const useLoadCharacterInfo = ({ id }: TUseLoadCharacterInfoProps) => {
-  const [character, setCharacter] = useState<TCharacter | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
+  const isValidCharacterId = isFinite(id) && id > 0;
+  const {
+    data: character,
+    isLoading,
+    isError,
+    error
+  } = useQuery({
+    queryKey: [QUERY_KEYS.CHARACTER, id],
+    enabled: isValidCharacterId,
+    queryFn: ({ signal }) => getCharacterInfo({ id: id, signal }),
+    retry: (failureCount, error) => {
+      if (isNotFoundError(error)) {
+        return false;
+      }
+      return failureCount < 2;
+    },
+    staleTime: 1000 * 60 * 60 // 1 час
+  });
 
-  const loadCharacterInfo = useCallback(async () => {
-    if (abortControllerRef.current) abortControllerRef.current.abort();
-
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const data = await getCharacterInfo({ id, signal: controller.signal });
-      setCharacter(data);
-    } catch (error) {
-      if (isRequestAborted(error)) return;
-
-      const message = getErrorMessage(error);
-      setError(message);
-    } finally {
-      if (controller.signal.aborted) return;
-      setIsLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    loadCharacterInfo();
-
-    return () => {
-      if (abortControllerRef.current) abortControllerRef.current.abort();
-    };
-  }, [loadCharacterInfo]);
+  const isNotFound = isNotFoundError(error) || !isValidCharacterId;
+  const errorMessage = isError ? getErrorMessage(error) : null;
 
   return {
     character,
     isLoading,
-    error
+    errorMessage,
+    isError,
+    isNotFound
   };
 };

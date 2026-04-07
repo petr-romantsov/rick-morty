@@ -1,7 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
-import { getCharacters } from '@/api/getCharacters';
-import { getErrorMessage, isRequestAborted } from '@/shared/helpers';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+
+import {
+  type TGetCharactersResponse,
+  getCharacters
+} from '@/api/getCharacters';
+import { QUERY_KEYS } from '@/shared/constants';
 import type { TCharacter, TFilters } from '@/shared/types';
 
 const INITIAL_PAGE = 1;
@@ -11,75 +16,71 @@ type TUseLoadCharactersProps = {
 };
 
 export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
-  const [characters, setCharacters] = useState<TCharacter[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(INITIAL_PAGE);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
-  const [isNextPageLoading, setIsNextPageLoading] = useState<boolean>(false);
-  const abortControllerRef = useRef<AbortController | null>(null);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setCurrentPage(INITIAL_PAGE);
-    setCharacters([]);
-    setError(null);
-  }, [filters]);
+  const queryKey = useMemo(
+    () => [
+      QUERY_KEYS.CHARACTERS,
+      filters.name ?? '',
+      filters.species ?? '',
+      filters.gender ?? '',
+      filters.status ?? ''
+    ],
+    [filters.name, filters.species, filters.gender, filters.status]
+  );
 
-  const loadCharacters = useCallback(async () => {
-    if (abortControllerRef.current) abortControllerRef.current.abort();
-
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-
-    if (currentPage === INITIAL_PAGE) {
-      setIsLoading(true);
-    } else {
-      setIsNextPageLoading(true);
-    }
-
-    try {
-      const data = await getCharacters({ filters, signal: controller.signal, page: currentPage });
-
-      if (currentPage === INITIAL_PAGE) {
-        setCharacters(data.results);
-      } else {
-        setCharacters((prevCharacters) => [...prevCharacters, ...data.results]);
-      }
-
-      setHasNextPage(!!data.info.next);
-    } catch (error) {
-      if (isRequestAborted(error)) return;
-      setHasNextPage(false);
-      const message = getErrorMessage(error);
-      setError(message);
-    } finally {
-      if (controller.signal.aborted) return;
-      setIsLoading(false);
-      setIsNextPageLoading(false);
-    }
-  }, [filters, currentPage]);
-
-  useEffect(() => {
-    loadCharacters();
-
-    return () => {
-      if (abortControllerRef.current) abortControllerRef.current.abort();
-    };
-  }, [loadCharacters]);
-
-  const updateCharacter = useCallback((character: TCharacter) => {
-    setCharacters((prev) =>
-      prev.map((prevCharacter) => (prevCharacter.id === character.id ? character : prevCharacter))
-    );
-  }, []);
-
-  return {
-    characters,
+  const {
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
     isLoading,
     error,
+    isError
+  } = useInfiniteQuery({
+    queryKey,
+    queryFn: ({ pageParam, signal }) =>
+      getCharacters({ filters, page: pageParam, signal }),
+    initialPageParam: INITIAL_PAGE,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.info.next ? allPages.length + 1 : null,
+    staleTime: 1000 * 60 * 60 // 1 час
+  });
+
+  const updateCharacter = useCallback(
+    (updatedCharacter: TCharacter) => {
+      queryClient.setQueryData<{
+        pages: TGetCharactersResponse[];
+        pageParams: number[];
+      }>(queryKey, (prev) => {
+        if (!prev) return prev;
+
+        return {
+          ...prev,
+          pages: prev.pages.map((page) => {
+            return {
+              ...page,
+              results: page.results.map((character) => {
+                return character.id === updatedCharacter.id
+                  ? updatedCharacter
+                  : character;
+              })
+            };
+          })
+        };
+      });
+    },
+    [queryClient, queryKey]
+  );
+
+  return {
+    characters: data?.pages.flatMap((page) => page.results) || [],
+    isLoading,
+    isError,
+    error,
+    isFetchingNextPage,
     hasNextPage,
-    isNextPageLoading,
-    setCurrentPage,
+    fetchNextPage,
     updateCharacter
   };
 };
