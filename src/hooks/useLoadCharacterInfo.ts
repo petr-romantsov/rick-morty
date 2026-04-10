@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getCharacterInfo } from '@/api/getCharacterInfo';
-import { QUERY_KEYS } from '@/shared/constants';
+import { ONE_HOUR, QUERY_KEYS } from '@/shared/constants';
 import { getErrorMessage, isNotFoundError } from '@/shared/helpers';
 
 type TUseLoadCharacterInfoProps = {
@@ -25,7 +25,7 @@ export const useLoadCharacterInfo = ({ id }: TUseLoadCharacterInfoProps) => {
       }
       return failureCount < 2;
     },
-    staleTime: 1000 * 60 * 60 // 1 час
+    staleTime: ONE_HOUR
   });
 
   const isNotFound = isNotFoundError(error) || !isValidCharacterId;

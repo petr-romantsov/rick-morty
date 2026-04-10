@@ -1,18 +1,40 @@
 import { useCallback, useMemo } from 'react';
 
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useQueryClient
+} from '@tanstack/react-query';
 
 import {
   type TGetCharactersResponse,
   getCharacters
 } from '@/api/getCharacters';
-import { QUERY_KEYS } from '@/shared/constants';
+import { ONE_HOUR, QUERY_KEYS } from '@/shared/constants';
 import type { TCharacter, TFilters } from '@/shared/types';
 
 const INITIAL_PAGE = 1;
 
 type TUseLoadCharactersProps = {
   filters: TFilters;
+};
+
+const replaceCharacter = (
+  data: InfiniteData<TGetCharactersResponse, number>,
+  updatedCharacter: TCharacter
+): InfiniteData<TGetCharactersResponse, number> => {
+  const patchResults = (results: TCharacter[]) =>
+    results.map((character) =>
+      character.id === updatedCharacter.id ? updatedCharacter : character
+    );
+
+  return {
+    ...data,
+    pages: data.pages.map((page) => ({
+      ...page,
+      results: patchResults(page.results)
+    }))
+  };
 };
 
 export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
@@ -44,7 +66,7 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
     initialPageParam: INITIAL_PAGE,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.info.next ? allPages.length + 1 : null,
-    staleTime: 1000 * 60 * 60 // 1 час
+    staleTime: ONE_HOUR
   });
 
   const updateCharacter = useCallback(
@@ -55,19 +77,7 @@ export const useLoadCharacters = ({ filters }: TUseLoadCharactersProps) => {
       }>(queryKey, (prev) => {
         if (!prev) return prev;
 
-        return {
-          ...prev,
-          pages: prev.pages.map((page) => {
-            return {
-              ...page,
-              results: page.results.map((character) => {
-                return character.id === updatedCharacter.id
-                  ? updatedCharacter
-                  : character;
-              })
-            };
-          })
-        };
+        return replaceCharacter(prev, updatedCharacter);
       });
     },
     [queryClient, queryKey]
