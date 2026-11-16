@@ -24,7 +24,9 @@ type TSelectorProps<T> = {
   SelectOptionContentComponent?: React.FC<SelectOptionContentProps<T>>;
 };
 
-const DefaultSelectOptionContent = <T,>({ option }: SelectOptionContentProps<T>) => {
+const DefaultSelectOptionContent = <T,>({
+  option
+}: SelectOptionContentProps<T>) => {
   return <>{option.label}</>;
 };
 
@@ -39,16 +41,14 @@ export const Select = <T,>({
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const normalizedValue = typeof value === 'string' ? value?.toLowerCase() : value;
-
-  const selectedOption = options.find((opt) => opt.value === normalizedValue);
+  const selectedOption = options.find((opt) => opt.value === value);
 
   const handleOptionClick = useCallback(
     (option: TSelectOption<T>) => {
-      if (option.value === normalizedValue) {
+      if (option.value === value) {
         onChange('');
       } else {
-        onChange(option.label);
+        onChange(option.value);
       }
       setIsSelectOpen(false);
     },
@@ -85,7 +85,11 @@ export const Select = <T,>({
         onClick={() => setIsSelectOpen((open) => !open)}
         type='button'
       >
-        {!!selectedOption ? <SelectOptionContentComponent option={selectedOption} /> : placeholder}
+        {selectedOption ? (
+          <SelectOptionContentComponent option={selectedOption} />
+        ) : (
+          placeholder
+        )}
         <ChevronDown className='selector__icon' />
       </button>
 
@@ -96,7 +100,8 @@ export const Select = <T,>({
               <li
                 key={String(option.value) || index}
                 className={clsx('selector__option', {
-                  selector__option_selected: selectedOption?.value === option.value
+                  selector__option_selected:
+                    selectedOption?.value === option.value
                 })}
                 onClick={() => handleOptionClick(option)}
               >
